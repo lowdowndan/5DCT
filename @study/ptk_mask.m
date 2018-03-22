@@ -51,3 +51,6 @@ save(fullfile(aStudy.folder,sprintf('mask_%02d.mat',scanNo)),'mask');
 rmCmd = ['rm -r "' dcmDir '"'];
 system(rmCmd);
 
+%% Remove dataset from PTK
+ptk_main.DeleteCacheForAllDatasets;
+

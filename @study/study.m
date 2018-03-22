@@ -104,6 +104,7 @@ end
 methods (Static)
     flow = get_flow(v,sampleRate)
     vSmooth = smooth(v)
+    slice = get_slice(img, dim, slice)
 end
 
 events

@@ -17,6 +17,7 @@ properties(SetAccess = protected)
     study % Reference to study object referenced by this model
 	registration % Reference to registration object  
     sequence % 4DCT sequences generated using this model
+    residualStatistics % Residual in the lung region
 
 end
 

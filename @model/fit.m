@@ -206,7 +206,6 @@ end
 
 %toc
 %% Save mean residual
-
 fwrite(fResidual,meanResidual,'single');
 fclose(fResidual);
 
@@ -217,4 +216,5 @@ end
 reset(gpuDevice);
 %cudaReset;
 aModel.study.patient.save;
+
 end

@@ -19,6 +19,10 @@ properties(SetAccess = protected)
 	algorithm % Registration algorithm used
 	parameters % Parameters used for
 	sliceFolder % Folder containing sliced DVFs
+    corSlice % Representative coronal slice
+    sagSliceL % Representative left sagittal slice
+    sagSliceR % Representative right sagittal slice
+
 
 end
 
