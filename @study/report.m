@@ -122,8 +122,28 @@ ins = '\clearpage';
 lines = cat(1,lines,ins);
 
 % Surrogate Linearity
-ins = '\section*{Bellows/Abdominal Height Linearity}';
+ins = '\section*{Bellows Signal/Abdominal Height}';
 lines = cat(1,lines,ins);
+
+ins = '\subsection*{Profile Location}';
+lines = cat(1,lines,ins);
+
+ins = '\begin{figure}[h!]';
+lines = cat(1,lines,ins);
+
+ins = '\centering';
+lines = cat(1,lines,ins);
+
+ins = ['\includegraphics[width=.75\textwidth]{' fullfile(aStudy.folder,'documents','surrogateCalibration','profileLocation.png') '}'];
+lines = cat(1,lines,ins);
+
+ins = '\end{figure}';
+lines = cat(1,lines,ins);
+
+
+ins = '\subsection*{Correlation}';
+lines = cat(1,lines,ins);
+
 
 ins = '\begin{figure}[h!]';
 lines = cat(1,lines,ins);
@@ -139,6 +159,9 @@ lines = cat(1,lines,ins);
 
 
 ins = '\clearpage';
+lines = cat(1,lines,ins);
+
+ins = '\subsection*{Abdomen Height Measurements}';
 lines = cat(1,lines,ins);
 
 

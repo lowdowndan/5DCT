@@ -123,6 +123,57 @@ ins = '\clearpage';
 lines = cat(1,lines,ins);
 
 
+%% Reconstruction overlays
+
+ins = '\subsection*{Original Scan Reconstructions}';
+lines = cat(1,lines,ins);
+
+for jScan = 1:length(aModel.runScans)
+
+iScan = aModel.runScans(jScan);
+
+ins = '\begin{figure}[h!]';
+lines = cat(1,lines,ins);
+
+ins = sprintf('\\caption*{Scan %02d}', iScan);
+lines = cat(1,lines,ins);
+
+
+ins = '\centering';
+lines = cat(1,lines,ins);
+
+ins = '\begin{subfigure}[b]{0.30\textwidth}';
+lines = cat(1,lines,ins);
+ins = ['\includegraphics[width=\textwidth]{' fullfile(aModel.folder,'documents',sprintf('recon_%02d_cor.png',iScan)) '}'];
+lines = cat(1,lines,ins);
+ins = '\end{subfigure}';
+lines = cat(1,lines,ins);
+
+ins = '\begin{subfigure}[b]{0.30\textwidth}';
+lines = cat(1,lines,ins);
+ins = ['\includegraphics[width=\textwidth]{' fullfile(aModel.folder,'documents',sprintf('recon_%02d_sag_l.png',iScan)) '}'];
+lines = cat(1,lines,ins);
+ins = '\end{subfigure}';
+lines = cat(1,lines,ins);
+
+ins = '\begin{subfigure}[b]{0.30\textwidth}';
+lines = cat(1,lines,ins);
+ins = ['\includegraphics[width=\textwidth]{' fullfile(aModel.folder,'documents',sprintf('recon_%02d_sag_r.png',iScan)) '}'];
+lines = cat(1,lines,ins);
+ins = '\end{subfigure}';
+lines = cat(1,lines,ins);
+
+
+ins = '\end{figure}';
+lines = cat(1,lines,ins);
+end
+
+ins = '\clearpage';
+lines = cat(1,lines,ins);
+
+
+
+
 %% End document
 ins = '\end{document}';
 lines = cat(1,lines,ins);

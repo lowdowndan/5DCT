@@ -97,7 +97,7 @@ aStudy.calibrate_surrogate(dicomTable, refScan);
 linearityFig = figure;
 plot(aStudy.abdomenHeights,aStudy.calibrationVoltages,'k+','markersize',8,'linewidth',1.5);
 set(linearityFig,'units','normalized');
-set(linearityFig,'Position',[0.5161         0    0.4833    0.9108]);
+set(linearityFig,'Position',[0         0    0.99    0.99]);
 set(gca,'fontsize',24);
 xlabel('Abdominal height (mm)');
 ylabel('Bellows (V)');

@@ -15,6 +15,6 @@ otherwise
 end
 
 slice = imrotate(slice,90);
-slice = squeeze(slice);
+%slice = squeeze(slice);
 
 

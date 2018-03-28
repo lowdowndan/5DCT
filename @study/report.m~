@@ -1,4 +1,4 @@
-function report(aModel)
+function report(aStudy)
 
 %% Load template
 texTemplate = importdata(fullfile(getPath,'reporting','template.tex'));
@@ -18,111 +18,8 @@ ins = '\begin{document}';
 lines = cat(1,lines,ins);
 
 % Heading
-ins = '\section*{Motion Modeling}';
+ins = '\section*{Image and Breathing Surrogate Acquisition}';
 lines = cat(1,lines,ins);
-
-ins = '\subsection*{Summary}';
-lines = cat(1,lines,ins);
-
-% Model Summary
-ins = '\begin{table}[H]';
-lines = cat(1,lines,ins);
-ins = '\centering';
-lines = cat(1,lines,ins);
-
-ins = '\begin{tabular}{cc}';
-lines = cat(1,lines,ins);
-
-ins = '\toprule';
-lines = cat(1,lines,ins);
-
-ins = '\midrule';
-lines = cat(1,lines,ins);
-
-ins = sprintf('Number of Scans & %02d \\\\',length(aModel.runScans));
-lines = cat(1,lines,ins);
-
-ins = sprintf('Reference Scan  & %02d \\\\',aModel.registration.refScan);
-lines = cat(1,lines,ins);
-
-ins = sprintf('Resiudal mean  & %0.2d \\\\',aModel.registration.residualStatistics.mean);
-lines = cat(1,lines,ins);
-
-ins = sprintf('Residual standard deviation & %0.2d \\\\',aModel.registration.residualStatistics.std);
-lines = cat(1,lines,ins);
-
-ins = sprintf('Residual 95th percentile & %0.2d \\\\',aModel.registration.residualStatistics.ninefive);
-lines = cat(1,lines,ins);
-
-
-ins = '\bottomrule';
-lines = cat(1,lines,ins);
-
-ins = '\end{tabular}';
-lines = cat(1,lines,ins);
-
-ins = '\end{table}';
-lines = cat(1,lines,ins);
-
-ins = '\clearpage}';
-lines = cat(1,lines,ins);
-% Error histogram
-
-ins = '\subsection*{Residual histogram}';
-lines = cat(1,lines,ins);
-
-
-ins = '\begin{figure}[h!]';
-lines = cat(1,lines,ins);
-ins = '\begin{figure}[h!]';
-lines = cat(1,lines,ins);
-
-ins = '\centering';
-lines = cat(1,lines,ins);
-
-ins = ['\includegraphics[width=0.75\textwidth]{' fullfile(aModel.folder,'report', 'errorHist.png') '}'];
-lines = cat(1,lines,ins);
-
-ins = '\end{figure}';
-lines = cat(1,lines,ins);
-
-% Coronal error MIP
-ins = '\begin{figure}[h!]';
-lines = cat(1,lines,ins);
-
-ins = '\centering';
-lines = cat(1,lines,ins);
-
-ins = '\caption*{\large{\textbf{MIP of Model residual (mm)}}}';
-lines = cat(1,lines,ins);
-ins = ['\includegraphics[width=0.75\textwidth]{' fullfile(aModel.folder,'report', 'corMip.png') '}'];
-lines = cat(1,lines,ins);
-
-ins = '\end{figure}';
-lines = cat(1,lines,ins);
-
-% Sagittal error MIP
-ins = '\begin{figure}[h!]';
-lines = cat(1,lines,ins);
-
-ins = '\centering';
-lines = cat(1,lines,ins);
-
-ins = ['\includegraphics[width=0.75\textwidth]{' fullfile(aModel.folder,'report', 'sagMip.png') '}'];
-lines = cat(1,lines,ins);
-
-ins = '\end{figure}';
-lines = cat(1,lines,ins);
-
-
-ins = '\clearpage';
-lines = cat(1,lines,ins);
-
-
-
-
-
-
 
 ins = '\subsection*{LabVIEW Data}';
 lines = cat(1,lines,ins);
@@ -227,6 +124,24 @@ lines = cat(1,lines,ins);
 % Surrogate Linearity
 ins = '\section*{Bellows/Abdominal Height Linearity}';
 lines = cat(1,lines,ins);
+
+ins = '\subsection*{Profile Location}';
+lines = cat(1,lines,ins);
+
+
+ins = '\begin{figure}[h!]';
+lines = cat(1,lines,ins);
+
+ins = '\centering';
+lines = cat(1,lines,ins);
+
+ins = ['\includegraphics[width=.75\textwidth]{' fullfile(aStudy.folder,'documents','surrogatePlot.png') '}'];
+lines = cat(1,lines,ins);
+
+ins = '\end{figure}';
+lines = cat(1,lines,ins);
+
+
 
 ins = '\begin{figure}[h!]';
 lines = cat(1,lines,ins);

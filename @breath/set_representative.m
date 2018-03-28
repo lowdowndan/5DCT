@@ -2,6 +2,7 @@
 function aBreath = set_representative(aBreath, guiFlag)
 
 load('fivedcolor');
+chkmkdir(fullfile(aBreath.folder,'documents'));
 
 
 if(~exist('guiFlag','var'))
@@ -35,7 +36,7 @@ title('Select a region of the breathing trace.');
 xlabel('Time (s)', 'fontsize',20);
 ylabel('Bellows Voltage (V)', 'fontsize', 20);
 pointList = selectdata('Action','list','SelectionMode','Rect','Identify','off','verify','on');
-
+subsetFig.Color = [1 1 1];
 indStart = min(pointList);
 indEnd = max(pointList);
 
@@ -44,7 +45,9 @@ hold on
 traceLine.Color = fivedcolor.gray;
 plot(t(indStart:indEnd),breathTrace(indStart:indEnd),'linewidth',1.5,'color',fivedcolor.blue);
 legend('Breathing Trace','Selected subset', 'Location','NE');
-print(fullfile(aStudy.folder,'documents','trace.png'),'-dpng');
+f = getframe(gcf);
+imwrite(f.cdata,fullfile(aBreath.folder,'documents','trace.png'),'png');
+%print(fullfile(aStudy.folder,'documents','trace.png'),'-dpng');
 
 %close(subsetFig);
 % Hide figure for later saving
@@ -224,8 +227,8 @@ ylabel('Bellows Voltage (V)', 'fontsize', 20);
 % Save
 avgBreathFig.Color = [1 1 1];
 f = getframe(avgBreathFig);
-imwrite(f.cdata,fullfile(aBreath.folder,'representativeBreath.png'),'png','WriteMode','overwrite');
-savefig(avgBreathFig, fullfile(aBreath.folder,'representativeBreath'));
+imwrite(f.cdata,fullfile(aBreath.folder,'documents','representativeBreath.png'),'png','WriteMode','overwrite');
+savefig(avgBreathFig, fullfile(aBreath.folder,'documents','representativeBreath'));
 close(avgBreathFig);
 
 
@@ -244,8 +247,8 @@ plot(t - t(1),breathTrace,'--','color',fivedcolor.gray,'linewidth',1.5);
 % Save
 avgBreathContextFig.Color = [1 1 1];
 f = getframe(avgBreathContextFig);
-imwrite(f.cdata,fullfile(aBreath.folder,'representativeBreathContext.png'),'png','WriteMode','overwrite');
-savefig(avgBreathContextFig, fullfile(aBreath.folder,'representativeBreathContext'));
+imwrite(f.cdata,fullfile(aBreath.folder,'documents','representativeBreathContext.png'),'png','WriteMode','overwrite');
+savefig(avgBreathContextFig, fullfile(aBreath.folder,'documents','representativeBreathContext'));
 close(avgBreathContextFig);
 
 %% Save selection figure
@@ -254,14 +257,14 @@ if (guiFlag)
 
 subsetFig.Color = [1 1 1];
 f = getframe(subsetFig);
-imwrite(f.cdata,fullfile(aBreath.folder,'traceSubset.png'),'png','WriteMode','overwrite');
+imwrite(f.cdata,fullfile(aBreath.folder,'documents','traceSubset.png'),'png','WriteMode','overwrite');
 close(subsetFig)
 
 end
 
 %% Save extrema figure
 f = getframe(extremaFig);
-imwrite(f.cdata,fullfile(aBreath.folder,'extrema.png'),'png','WriteMode','overwrite');
+imwrite(f.cdata,fullfile(aBreath.folder,'documents','extrema.png'),'png','WriteMode','overwrite');
 
 %% Modify breath object
 aBreath.v = representativeBreath(:);

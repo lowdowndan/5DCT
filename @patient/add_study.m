@@ -1,5 +1,5 @@
 
-function aPatient = addStudy(aPatient,varargin)
+function aPatient = add_study(aPatient,varargin)
 % aPatient.add_study: Create a new study object and append it to array of studies associated with this patient.
 %
 %aPatient.addStudy(dicomFolder,bellowsDataFilename, nScans) appends a study

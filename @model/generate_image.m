@@ -1,6 +1,6 @@
 %% generate_image
 
-function img = generate_image(aModel,v,f, aX, aY, aZ, bX, bY, bZ, cX, cY, cZ)
+function img = generate_image(aModel,v,f, aX, aY, aZ, bX, bY, bZ, cX, cY, cZ, img)
 
 % Load parameters if they are not provided as input arguments
 if(~exist('aX','var'))
@@ -11,9 +11,12 @@ if(~exist('aX','var'))
     
 end
 
+
+if(~exist('img','var'))
+    img = aModel.registration.get_average_image;
+end
+    
+
 [dX, dY, dZ] = aModel.get_deformation(v,f,aX,aY,aZ,bX,bY,bZ,cX,cY,cZ);
-
-[X,Y,Z] = meshgrid(1:aModel.study.dim(1),1:aModel.study.dim(2),1:aModel.study.dim(3));
-
-averageImage = aModel.registration.get_average_image;
-img = interp3(X,Y,Z,averageImage, X + dX, Y + dY, Z + dZ, 'linear', -1024);
+[X,Y,Z] = meshgrid(1:size(img,1),1:size(img,2),1:size(img,3));
+img = interp3(X,Y,Z,img, X + dX, Y + dY, Z + dZ, 'linear', -1024);

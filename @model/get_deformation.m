@@ -11,9 +11,11 @@ if(~exist('aX','var'))
     
 end
 
-% Accept vector of v,f values
-if numel(v) > 1 && isvector(v)
-
+% Accept scalar v,f values only
+if (numel(v) ~= 1) || (numel(f) ~= 1)
+   % error('v,f must be scalars.');
+     
+   
     assert(length(v) == size(aX,3), 'If v, f are vector-valued they must have length equal to the number of slices');
 
     iX = zeros(size(aX),'single');
@@ -27,7 +29,8 @@ if numel(v) > 1 && isvector(v)
     iZ(:,:,iSlice) = cZ(:,:,iSlice) + (aZ(:,:,iSlice) .* v(iSlice)) + (bZ(:,:,iSlice) .* f(iSlice));
     
     end
-     
+   
+   
 else
     
 % Calculate forward deformations
