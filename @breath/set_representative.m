@@ -67,7 +67,7 @@ pMin = prctile(breathTrace, 100 - percentileInterval(1));
 pMax = prctile(breathTrace, 100 - percentileInterval(2));
 
 %% Detect peaks and valleys
-[~, extrema] = detect_peaks_valleys(breathTrace, aStudy.sampleRate);
+[~, extrema] = breath.detect_peaks_valleys(breathTrace, aStudy.sampleRate);
 
 extremaFig = figure;
 traceLine = plot(t,breathTrace,'color',fivedcolor.blue,'linewidth',1.5);
@@ -75,7 +75,7 @@ set(extremaFig.CurrentAxes, 'fontsize', 20);
 set(extremaFig,'units','normalized','position', [0.1000    0.1000    0.8100    0.8100]);
 xlabel('Time (s)', 'fontsize',20);
 ylabel('Bellows Voltage (V)', 'fontsize', 20);
-hold on
+hold on;
 
 % If gui flag was passed, plot and have user adjust/confirm
 if(guiFlag)
@@ -241,7 +241,7 @@ set(avgBreathContextFig,'units','normalized','position', [0.1000    0.1000    0.
 title('Representative Breath');
 xlabel('Time (s)', 'fontsize',20);
 ylabel('Bellows Voltage (V)', 'fontsize', 20);
-hold
+hold on;
 plot(t - t(1),breathTrace,'--','color',fivedcolor.gray,'linewidth',1.5);
 
 % Save

@@ -51,6 +51,7 @@ properties(SetAccess = protected)
     zPositions % Slice locations for this study's geometry
     imagePositionPatient % DICOM RCS coordinates of the first voxel center.
     registration % Registrations associated with this study
+    shifts % nScans x 3 matrix with shifts in x,y, and z, respectively, from each scan to the reference coordinate system.
     
     breath % Representative breaths
     model % 5D Model
@@ -105,6 +106,9 @@ methods (Static)
     flow = get_flow(v,sampleRate)
     vSmooth = smooth(v)
     slice = get_slice(img, dim, slice)
+    dcmTableRow = parse_dump(filename, dcmdumpResult)
+    time = time2sec(dicomTime)
+    xrayOnFiltered = filter_xrayOn(xrayOn,sz,sigma)
 end
 
 events

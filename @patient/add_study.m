@@ -21,7 +21,20 @@ validateattributes(aPatient,{'patient'},{});
 dicomFolder = uigetdir('','Select folder containing the dicom files for this study.');
 [bellowsDataFilename,bellowsPath] = uigetfile('*.*','Select the file containing the bellows measurement.',dicomFolder);
 bellowsDataFilename = fullfile(bellowsPath,bellowsDataFilename);
-nScans = input('Enter number of scans: ');
+
+
+%nScans = input('Enter number of scans: ');
+userResp = inputdlg({'Number of scans acquired'}, 'Scans', [1 30]);
+
+% Was nScans  provided?
+if(isempty(userResp) || strcmp(userResp{1},''))
+    waitfor(errordlg('Enter number of scans.','Error', 'modal'));
+else
+    
+% Is nScans number valid?
+nScans = str2double(userResp{1});
+end
+
 validateattributes(nScans,{'numeric'},{'real', 'nonnan', 'finite', 'integer', 'nonzero', 'nonnegative', 'numel', 1});
 else
 

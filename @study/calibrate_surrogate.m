@@ -220,7 +220,7 @@ aStudy.abdomenHeights = abdomenHeights;
 
 %% Get voltage values and corresponding times
 
-[scanBellowsVoltage, scanBellowsFlow, scanBellowsTime, scanEkg] = getDataSegments(aStudy);
+[scanBellowsVoltage, scanBellowsFlow, scanBellowsTime, scanEkg] = get_data_segments(aStudy);
 
 
 calibrationVoltages = zeros(size(abdomenHeights),'single');

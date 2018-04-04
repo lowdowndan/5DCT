@@ -30,10 +30,8 @@ function aBreath = breath(aStudy)
 aBreath.study = aStudy;
 aBreath.uuid = char(java.util.UUID.randomUUID);
 chkmkdir(fullfile(aStudy.folder,'breaths'));
-
 aBreath.folder = fullfile(aStudy.folder,'breaths',aBreath.uuid);
 chkmkdir(aBreath.folder);
-
 aBreath.percentileInterval = [5 85];
 end
 
@@ -57,6 +55,8 @@ end
 end
 
 methods (Static)
+[peaks, valleys] = detect_peaks_valleys(trace, sampleRate)
+
 end
 
 events

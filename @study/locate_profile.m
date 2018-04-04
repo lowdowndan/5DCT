@@ -59,6 +59,7 @@ switch userResponse
 	colormap(sqrt(gray));
 	hProfile = imline(gca,[size(imgAx,2) / 2, 10; size(imgAx,2) / 2, 30]);
 	hProfile.setColor('r');
+    drawnow;
 	profile = hProfile.wait;
 
 	title('');

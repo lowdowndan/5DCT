@@ -1,6 +1,7 @@
-function aScan = align(aScan, refZpositions)
+function shift = align(aScan, refZpositions, refImagePositionPatient)
 % aScan.align(refZpositions) interpolates the image data at Z locations refZpositions.  This method is called when the couch positions of a scan differ from those of the reference image.  It is necessary to avoid biasing the model parameters with an artificial shift.
 
+shift = zeros(1,3);
 zPositions = aScan.zPositions;
 v = aScan.v;
 f = aScan.f;
@@ -11,78 +12,60 @@ dicoms = aScan.dicoms;
 img = aScan.img;
 
 
-%% Fix unequal number of slices between this scan and the reference scan
+%% Original grid
+xx = aScan.imagePositionPatient(1) : aScan.elementSpacing(1) : aScan.imagePositionPatient(1) + ((aScan.dim(1) - 1) * aScan.elementSpacing(1));
+yy = aScan.imagePositionPatient(2) : aScan.elementSpacing(2) : aScan.imagePositionPatient(2) + ((aScan.dim(2) - 1) * aScan.elementSpacing(2));
+zz = aScan.zPositions;
 
-% Too few slices?
-if numel(zPositions) < numel(refZpositions)
-	
-% Repeat last value of zPositions.  Interpolation is set
-% to clamp on the edge.
+[XX,YY,ZZ] = meshgrid(xx,yy,zz);
 
-% TODO:
-% How to handle duplicate dicom headers?
+%% New grid
+xi = refImagePositionPatient(1) : aScan.elementSpacing(1) : refImagePositionPatient(1) + ((aScan.dim(1) - 1) * aScan.elementSpacing(1));
+yi = refImagePositionPatient(2) : aScan.elementSpacing(2) : refImagePositionPatient(2) + ((aScan.dim(2) - 1) * aScan.elementSpacing(2));
+zi = refZpositions;
 
-    zPositions(end:length(refZpositions)) = zPositions(end);
-    dicoms(end:length(refZpositions)) = dicoms(end);
+[XI,YI,ZI] = meshgrid(xi,yi,zi);
 
+%% Warn if there is a shift in x, y or z.
 
-% Too many slices?
-elseif numel(zPositions) > numel(refZpositions)
-
-	nExtraSlices = numel(zPositions) - numel(refZpositions);
-
-	% Which end of the scan extends beyond the reference?
-	topOffset = abs(zPositions(1) - refZpositions(1));
-	bottomOffset = abs(zPositions(end) - refZpositions(end));
-
-	% Trim at appropriate end
-	switch sign(topOffset - bottomOffset)
-
-	case 1
-		% Remove slices from top
-		zPositions(1:nExtraSlices) = [];
-		dicoms(1:nExtraSlices) = [];
-	case -1
-		% Remove slices from bottom
-		zPositions(end - (nExtraSlices - 1): end) = [];
-		dicoms(end - (nExtraSlices - 1): end) = [];
-	case 0
-		% Alternate
-		for iSlice = 1: nExtraSlices
-			if mod(iSlice,2)
-				zPositions(1) = [];
-				dicoms(1) = [];
-			else
-				zPositions(1) = [];
-				dicoms(end) = [];
-			end
-		end
-	end
+% X
+if (~isequal(aScan.imagePositionPatient(1), refImagePositionPatient(1)))
+    shift(1) = refImagePositionPatient(1) - aScan.imagePositionPatient(1);
+    warning('Scan %02d is shifted from the reference scan by %0.4f mm in the X direction.  Interpolating to correct.', aScan.number, shift(1));
 end
 
-% Get shift for each slice
-zShift = zPositions - refZpositions;
-z = [1:numel(refZpositions)]' + zShift;
-% Interpolate image 
-[Xi,Yi,Zi] = meshgrid(1:size(img,1),1:size(img,2),z);
-Xi = single(Xi);
-Yi = single(Yi);
-Zi = single(Zi);   
-img = trilinterp(img,Xi,Yi,Zi);
+% Y
+if (~isequal(aScan.imagePositionPatient(2), refImagePositionPatient(2)))
+    shift(2) = refImagePositionPatient(2) - aScan.imagePositionPatient(2);
+    warning('Scan %02d is shifted from the reference scan by %0.4f mm in the Y direction.  Interpolating to correct.', aScan.number, shift(2));
+end
 
-% Interpolate bellows
-interpZRef = [1:length(v)];
-v = interp1(interpZRef,v,z,'linear','extrap');
-f = interp1(interpZRef,f,z,'linear','extrap');
-ekg = interp1(interpZRef,ekg,z,'linear','extrap');
-t = interp1(interpZRef,t, z,'linear','extrap');
+% Z
+if (~isequal(aScan.zPositions(1), refZpositions(1)))
+    shift(3) = refZpositions(1) - aScan.zPositions(1);
+    warning('Scan %02d is shifted from the reference scan by %0.4f mm in the Z direction.  Interpolating to correct.', aScan.number, shift(3));
+end
 
-% Write results
+%% Interpolate image
+
+img = interp3(XX,YY,ZZ,img,XI,YI,ZI,'linear', -1024);
+
+
+%% Interpolate bellows (Z only)
+v = interp1(zPositions,v,refZpositions,'spline','extrap');
+f = interp1(zPositions,f,refZpositions,'spline','extrap');
+ekg = interp1(zPositions,ekg,refZpositions,'spline','extrap');
+t = interp1(zPositions,t, refZpositions,'linear','extrap');
+
+%% Write results
 aScan.img = img;
+aScan.dim = size(img);
 aScan.v = v;
 aScan.f = f;
 aScan.ekg = ekg;
 aScan.t = t;
-aScan.zPositions = zPositions;
+aScan.zPositions = refZpositions;
+aScan.imagePositionPatient = refImagePositionPatient;
 aScan.dicoms = dicoms;
+
 end

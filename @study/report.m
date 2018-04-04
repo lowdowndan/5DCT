@@ -118,6 +118,48 @@ ins = '\end{figure}';
 lines = cat(1,lines,ins);
 
 
+% Shifts?
+
+if(any(aStudy.shifts(:)))
+    
+    
+ins = '\section*{Corrected shifts}';
+lines = cat(1,lines,ins);   
+ins = '\begin{table}[H]';
+lines = cat(1,lines,ins);
+ins = '\centering';
+lines = cat(1,lines,ins);
+
+ins = '\begin{tabular}{cccc}';
+lines = cat(1,lines,ins);
+
+ins = '\toprule';
+lines = cat(1,lines,ins);
+
+ins = 'Scan Number & X (mm) & Y (mm) & Z (mm)\\\\';
+lines = cat(1,lines,ins);
+
+ins = '\midrule';
+lines = cat(1,lines,ins);
+
+
+
+for iScan = 1:aStudy.nScans
+ins = sprintf('%02d & %0.2f & %0.2f & %0.2f \\\\',iScan,aStudy.shifts(iScan,1), aStudy.shifts(iScan,2),aStudy.shifts(iScan,3));
+lines = cat(1,lines,ins);   
+end
+
+
+ins = '\bottomrule';
+lines = cat(1,lines,ins);
+
+ins = '\end{tabular}';
+lines = cat(1,lines,ins);
+
+ins = '\end{table}';
+lines = cat(1,lines,ins);
+end
+
 ins = '\clearpage';
 lines = cat(1,lines,ins);
 

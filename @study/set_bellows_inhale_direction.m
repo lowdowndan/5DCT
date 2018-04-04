@@ -3,6 +3,7 @@ function set_bellows_inhale_direction(aStudy, inhaleDirection)
 
 %% Direction provided?
 
+load('fivedcolor')
 if exist('inhaleDirection','var')
 validateattributes(inhaleDirection,{'logical','numeric'},{'finite','real','integer','numel',1,});
 
@@ -41,6 +42,26 @@ if(isequal(inhaleDirection,0))
 vRaw = aStudy.data(:,aStudy.channels.voltage);
 vFlipped = max(vRaw) - vRaw;
 aStudy.data(:,aStudy.channels.voltage) = vFlipped;
+
+% Overwrite plot for report
+    
+ % Voltage Plot
+ bellowsColor = fivedcolor.blue;
+ voltFig = figure;
+ voltFig.Units = 'normalized';
+ voltFig.Visible = 'off';
+ voltFig.Position =  [0.0 0.0 .99 .99];
+ plot(aStudy.data(:,1),aStudy.data(:,aStudy.channels.voltage), 'color', bellowsColor, 'linewidth',1);
+ xlabel('Time (s)');
+ ylabel('Voltage (V)');
+ set(gca,'fontsize',20);
+ voltFig.Color = [1 1 1];
+   
+ % Save
+ f = getframe(gcf);
+ imwrite(f.cdata,fullfile(aStudy.folder,'documents','channel_voltage.png'),'png');
+ close(voltFig);
+
 end
 
 %% Modify study object to reflect changes

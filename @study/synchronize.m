@@ -17,7 +17,7 @@ end
 
 %% Select data channels
 if(isempty(aStudy.channels))
-	aStudy.setChannels;
+	aStudy.set_channels;
 end
 
 %% Get inhalation direction, flip if necessary
@@ -35,21 +35,21 @@ end
 
 %% Set sample rate
 if(isempty(aStudy.sampleRate))
-    aStudy.setSampleRate;
+    aStudy.set_sample_rate;
 end
 
 %% Prompt user for relevant region of breathing trace
 if(isempty(aStudy.dataRange))
-    aStudy.setDataRange;
+    aStudy.set_data_range;
     aStudy.patient.save;
 end
 
 %% Get scan start/end times
 if(isempty(aStudy.startScan) || isempty(aStudy.stopScan))
  
-     aStudy.setScanSegments;
+     aStudy.set_scan_segments;
      % Plot and record scan segments
-     aStudy.plotScanSegments(1);
+     aStudy.plot_scan_segments(1);
      aStudy.patient.save;
 
 end
@@ -125,6 +125,7 @@ aStudy.correct_drift;
 % Save linearity figure
 f = getframe(linearityFig);
 imwrite(f.cdata,fullfile(aStudy.folder,'documents','surrogatePlot.png'),'png');
+close(linearityFig);
 
 
 else
@@ -136,7 +137,7 @@ end
 end
 
 %% Get data segments that refelct drift correction
-[scanBellowsVoltage, scanBellowsFlow, scanBellowsTime, scanEkg] = getDataSegments(aStudy);
+[scanBellowsVoltage, scanBellowsFlow, scanBellowsTime, scanEkg] = get_data_segments(aStudy);
 
 
 %% Generate and store a UID for this study    
@@ -170,7 +171,10 @@ else
 error('Scanner model not supported.  This toolbox only supports the Siemens Definition Flash, Biograph 64, or Definition AS.');
 end
 
+% Initialize shift matrix to
+aStudy.shifts = zeros(aStudy.nScans,3,'single');
 
+% Iterate
 for jScan = 1:aStudy.nScans
 
 iScan = scanIterate(jScan);
@@ -326,7 +330,7 @@ scanImage = (scanImage .*  rescale(1)) + rescale(2);
 
 % Write scan
 aScan = scan(aStudy, aStudy.acquisitionInfo, imagePositionPatient, zPositions);
-aScan.setOriginal(scanImage, iScan, [pixelSpacing(:)' sliceThickness], sliceFilenames, ...
+aScan.set_original(scanImage, iScan, [pixelSpacing(:)' sliceThickness], sliceFilenames, ...
     bellowsVoltageSlices, flowSlices, acqEkgSlices, acquisitionTimes, scanDirection, aStudy.studyUID);
 
 % Set the reference image position patient (before resampling to 1x1x1) if this is the
@@ -340,7 +344,7 @@ else
     % If this is not the reference scan, verify that this scan is at the
     % same location as the reference.  Align if necessary.
     if (~isequal(refZpositions,zPositions) || ( ~isequal(refImagePositionPatient(1),imagePositionPatient(1))) || (~isequal(refImagePositionPatient(2),imagePositionPatient(2))))
-    aScan = aScan.align2(refZpositions, refImagePositionPatient);
+    aStudy.shifts(iScan,:) = aScan.align(refZpositions, refImagePositionPatient);
     end
     
 end
@@ -348,7 +352,7 @@ end
 
 % Resample to 1x1x1 mm resolution, resample surrogate signals if necessary
 % (done if any slice thickness other than 1.0 is used)
-aScan.resample2;
+aScan.resample;
 
 % Store data from reference scan in study object
 
@@ -383,7 +387,7 @@ aStudy.direction(iScan) = scanDirection;
 
 % Write image data to .nii for registration
 chkmkdir(fullfile(aStudy.folder,'nii'));
-aScan.writeNii(fullfile(aStudy.folder,'nii',sprintf('%02d',iScan)));
+aScan.write_nii(fullfile(aStudy.folder,'nii',sprintf('%02d',iScan)));
 
 % Save scan metadata
 aScan.img = [];

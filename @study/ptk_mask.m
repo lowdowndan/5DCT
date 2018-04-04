@@ -14,6 +14,13 @@ aScan = aStudy.getScan(scanNo);
 %% Write scan to dicom temporarily
 
 dcmDir = fullfile(aStudy.folder,'tmpdcm');
+
+% Does tmp dir exist?
+if(exist(dcmDir,'dir'));
+% Delete all dicoms in it
+delete(fullfile(dcmDir,'*.dcm'));
+end
+
 mkdir(dcmDir);
 aScan.write_dicom(dcmDir);
 

@@ -89,7 +89,7 @@ end
 
     
 	% CUDA model fitting
-    [parameters, modelFit] = fit_gpu(v,f,dim,startSlice, dRegistration);
+    [parameters, modelFit] = model.fit_gpu(v,f,dim,startSlice, dRegistration);
 
     xParameters = parameters(:,1:3:end-2);
 	yParameters = parameters(:,2:3:end-1);

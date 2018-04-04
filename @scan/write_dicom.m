@@ -28,7 +28,7 @@ end
 
 if(isempty(aScan.img) && aScan.original)
     
-img = aScan.getImage;
+img = aScan.get_image;
 else
 
 assert(~isempty(aScan.img), 'Missing image, cannot write to DICOM.');    

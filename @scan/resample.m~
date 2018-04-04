@@ -1,4 +1,4 @@
-function aScan = resample(aScan)
+function aScan = resample2(aScan)
 % aScan.resample resamples the image stored in aScan.img to 1x1x1.
 
 % Resample to 1x1x1

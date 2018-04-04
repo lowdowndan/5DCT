@@ -51,7 +51,7 @@ acquisitionInfo.Exposure = header.Exposure;
 acquisitionInfo.ExposureTime = header.ExposureTime;
 
 % Patient Info
-if(~strcmp(header.PatientID, aStudy.patient.id))
+if(~strcmp(header.PatientID, num2str(aStudy.patient.id)))
     warning('Patient ID entered does not match the ID on the DICOM headers.  Using entered ID.');
 end
 acquisitionInfo.PatientID = num2str(aStudy.patient.id);

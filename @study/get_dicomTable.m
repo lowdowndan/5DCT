@@ -47,7 +47,7 @@ if (~isempty(scanFolderFiles))
 
 		% Parse
 		if isNotDicom(iFile) == 0
-		folderRows(iFile,:) = parseDump(filename,dcmdumpResult);
+		folderRows(iFile,:) = study.parse_dump(filename,dcmdumpResult);
 		end
 
 		try
@@ -112,7 +112,7 @@ if numSubfolders > 0
 			% Parse
 			if isNotDicom(fileInd) == 0
 
-			subfolderRows(fileInd,:) = parseDump(filename,dcmdumpResult); 
+			subfolderRows(fileInd,:) = study.parse_dump(filename,dcmdumpResult); 
 
 			end
 
@@ -140,7 +140,7 @@ dicomTable = cat(1,folderRows,subfolderRows);
 
 %% Convert acquisition time to seconds from midnight
 for iRow = 1:length(dicomTable)
-    dicomTable{iRow,3} = time2sec(dicomTable{iRow,3});
+    dicomTable{iRow,3} = study.time2sec(dicomTable{iRow,3});
 end
 
 %% Sort headers according to acquisition time.

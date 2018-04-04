@@ -85,7 +85,9 @@ methods (Static)
     
     %debug = fit_gpu(v,f,dim,startSlice,dRegistration)
     %debug = load_parameters(aModel,p);
-    [iX,iY,iZ] = invert_deformation_field_gpu(dX,dY,dZ,nIterations);
+    [iX,iY,iZ] = invert_deformation_field_gpu(dX,dY,dZ,nIterations)
+    [parameters, modelFit] = fit_gpu(v,f,dim,startSlice, dRegistration)
+
     
 end
 

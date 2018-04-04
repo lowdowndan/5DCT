@@ -69,7 +69,7 @@ corMipRGB = ind2rgb(scaled,rdylgn);
 
 % Scale colorbar (size)
 cbar = single(cbar);
-cbarScaled = imresize(cbar, size(corMipRGB,1) / size(cbar,1), 'OutputSize', [size(corMipRGB,1) nan]);
+cbarScaled = imresize(cbar, [size(corMipRGB,1) nan]);
 cbarScaled = cbarScaled / 255;
 
 % Expand 
@@ -120,7 +120,7 @@ sagMipRGB = ind2rgb(scaled,rdylgn);
 
 % Scale colorbar (size)
 cbar = single(cbar);
-cbarScaled = imresize(cbar, size(sagMipRGB,1) / size(cbar,1), 'OutputSize', [size(sagMipRGB,1) nan]);
+cbarScaled = imresize(cbar, [size(sagMipRGB,1) nan]);
 cbarScaled = cbarScaled / 255;
 
 % Expand 
