@@ -23,15 +23,6 @@ end
 gpu = gpuDevice;
 assert(isa(gpu,'parallel.gpu.CUDADevice'), 'CUDA capable GPU required.');
 
-
-
-% Throw warning if no image processing toolbox is found
-if ~systemParams.imgToolbox
-warning('Image processing toolbox is required to support DICOM import/export.');
-end
-%% Set data directory
-
-
 %% Check if toolbox is already installed
 if (ispref('fiveD','dataDir') && ispref('fiveD','installDir')) 
 
