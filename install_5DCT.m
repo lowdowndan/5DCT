@@ -85,10 +85,10 @@ cd(ogDir);
 
 
 
-msg = ['Please add ' fullfile(installDir,'supportFunctions','bin') ' to the system path.']; 
+msg = ['Please add ' fullfile(fiveDpath,'supportFunctions','bin') ' to the system path.']; 
 disp(msg);
 
-msg = ['Please add ' fullfile(installDir) ' and all subfolders to the MATLAB path.'];
+msg = ['Please add ' fullfile(fiveDpath) ' and all subfolders to the MATLAB path.'];
 disp(msg);
 
 msg = ['Please add the pulmonary toolkit (PTK) folder to the MATLAB path.'];
