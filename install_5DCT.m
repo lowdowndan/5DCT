@@ -35,27 +35,41 @@ end
 %% Check if toolbox is already installed
 if (ispref('fiveD','dataDir') && ispref('fiveD','installDir')) 
 
+% Toolbox preferences found. Overwrite?
 
 	overwrite = questdlg('Toolbox already installed.  Select new install directories?', '5D Toolbox', 'Yes', 'No','No');
 
 	if(strcmp(overwrite,'No'))
-		return;
+
+	else
+
+	% Prompt user
+	dataDir = uigetdir('/','Select a directory to store patient data.');
+	% Set
+	setpref('fiveD','dataDir',dataDir);
+	% Set install directory
+	installDir = fileparts(mfilename('fullpath'));
+	setpref('fiveD','installDir',installDir);
+
 	end
+else
+% No toolbox preferences found.  Prompt
+
+	% Prompt user
+	dataDir = uigetdir('/','Select a directory to store patient data.');
+	% Set
+	setpref('fiveD','dataDir',dataDir);
+	% Set install directory
+	installDir = fileparts(mfilename('fullpath'));
+	setpref('fiveD','installDir',installDir);
+
 end
 
-% Prompt user
-dataDir = uigetdir('/','Select a directory to store patient data.');
-
-% Set
-setpref('fiveD','dataDir',dataDir);
-
-%% Set install directory
-installDir = fileparts(mfilename('fullpath'));
-setpref('fiveD','installDir',installDir);
 
 %% Add install directory to path
-%disp('Adding 5DCT Toolbox folders to path.');
-%ddpath(genpath(installDir));
+disp('Adding 5DCT Toolbox folders to path.');
+addpath(genpath(installDir));
+savepath;
 
 
 %% Compile mex functions
@@ -86,6 +100,8 @@ cd(ogDir);
 
 
 
+msg = ['Please add ' fullfile(installDir,'supportFunctions') ' to the system path.']; 
+disp(msg);
 
 
 
