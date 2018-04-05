@@ -42,7 +42,7 @@ methods
     	
     %% Check if this is test/qa patient	
 	if strcmp(id,'test')
-	folder = fullfile(getDataDir,'test','testPatient');
+	folder = fullfile(fiveDdata,'test','testPatient');
 	chkmkdir(folder);
 	aPatient.filename = fullfile(folder,'patient.mat');
 	aPatient.id = 'test';
@@ -57,7 +57,7 @@ methods
     aPatient.id = id;
 
 	% Create patient folder
-	folder = fullfile(getDataDir,sprintf('%07d',aPatient.id));
+	folder = fullfile(fiveDdata,sprintf('%07d',aPatient.id));
 	chkmkdir(folder);
     
     % Create model and study folders

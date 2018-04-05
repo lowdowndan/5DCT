@@ -57,12 +57,6 @@ else
 end
 
 
-%% Add install directory to path
-disp('Adding 5DCT Toolbox folders to path.');
-addpath(genpath(installDir));
-savepath;
-
-
 %% Compile mex functions
 ogDir = pwd;
 cd(fullfile(fiveDpath,'@model'))
@@ -94,5 +88,10 @@ cd(ogDir);
 msg = ['Please add ' fullfile(installDir,'supportFunctions') ' to the system path.']; 
 disp(msg);
 
+msg = ['Please add ' fullfile(installDir) ' and all subfolders to the MATLAB path.'];
+disp(msg);
+
+msg = ['Please add the pulmonary toolkit (PTK) folder to the MATLAB path.'];
+disp(msg);
 
 

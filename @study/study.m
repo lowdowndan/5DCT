@@ -8,7 +8,7 @@ end
 	
 properties(SetAccess = protected)
 
-    date % Date and time of study
+	date % Date and time of study
 	dicomFolder % Folder containing dicoms for free breathing scans
 	data % Drift-compensated bellows, ekg and x-ray on data from daq
 
@@ -53,6 +53,7 @@ properties(SetAccess = protected)
     registration % Registrations associated with this study
     shifts % nScans x 3 matrix with shifts in x,y, and z, respectively, from each scan to the reference coordinate system.
     
+    refScan % Reference scan geometry
     breath % Representative breaths
     model % 5D Model
 

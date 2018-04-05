@@ -1,5 +1,6 @@
-function aStudy = calibrate_surrogate(aStudy, dicomTable, refScan)
+function aStudy = calibrate_surrogate(aStudy, dicomTable)
    
+refScan = aStudy.refScan;
 
 load('fivedcolor');
 scanIDs = aStudy.scanIDs;
