@@ -131,6 +131,7 @@ bellowsTimeXrayOnNorm = bellowsTimeXrayOn - bellowsTimeXrayOn(1);
 nanInds = isnan(bellowsVoltageXrayOn);
 bellowsVoltageXrayOn(nanInds) = [];
 acqEkg(nanInds) = [];
+bellowsTimeXrayOn(nanInds) = [];
 bellowsTimeXrayOnNorm(nanInds) = [];
 bellowsFlowXrayOn(nanInds) = [];
 
@@ -138,6 +139,7 @@ bellowsFlowXrayOn(nanInds) = [];
 bellowsVoltageSlices = interp1(bellowsTimeXrayOnNorm,bellowsVoltageXrayOn,acquisitionTimesNorm,'spline');
 acqEkgSlices = interp1(bellowsTimeXrayOnNorm,acqEkg,acquisitionTimesNorm,'spline');
 flowSlices = interp1(bellowsTimeXrayOnNorm,bellowsFlowXrayOn,acquisitionTimesNorm,'spline');
+timeSlices = interp1(bellowsTimeXrayOnNorm,bellowsTimeXrayOn,acquisitionTimesNorm,'linear','extrap');
 
 
 % Remove slices outside of range, along with surrogate/ekg measurements
@@ -145,6 +147,7 @@ if (any(removeMask))
 
     scanImage(:,:,removeMask) = [];
     bellowsVoltageSlices(removeMask) = [];
+    timeSlices(removeMask) = [];
     acqEkgSlices(removeMask) = [];
     flowSlices(removeMask) = [];
     acquisitionTimes(removeMask) = [];
@@ -164,6 +167,7 @@ if scanDirection < 1
 
 imagePositionPatient = dicomTable{firstSlice,4};
 bellowsVoltageSlices = flipdim(bellowsVoltageSlices,1);
+timeSlices = flipdim(timeSlices,1);
 flowSlices = flipdim(flowSlices,1);
 acqEkgSlices = flipdim(acqEkgSlices,1);
 acquisitionTimes = flipdim(acquisitionTimes,1);
@@ -200,7 +204,7 @@ scanImage = (scanImage .*  rescale(1)) + rescale(2);
 % Write scan
 aScan = scan(aStudy, aStudy.acquisitionInfo, imagePositionPatient, zPositions);
 aScan.set_original(scanImage, iScan, [pixelSpacing(:)' sliceThickness], sliceFilenames, ...
-    bellowsVoltageSlices, flowSlices, acqEkgSlices, acquisitionTimes, scanDirection, aStudy.studyUID);
+    bellowsVoltageSlices, flowSlices, acqEkgSlices, timeSlices, scanDirection, aStudy.studyUID);
 
 % Set the reference image position patient (before resampling to 1x1x1) if this is the
 % reference scan
@@ -232,7 +236,9 @@ aStudy.scans = cell(aStudy.nScans,1);
 aStudy.v = nan(size(aScan.v,1),aStudy.nScans);
 aStudy.f = nan(size(aScan.v,1),aStudy.nScans);
 aStudy.ekg = nan(size(aScan.v,1),aStudy.nScans);
+aStudy.t = nan(size(aScan.v,1),aStudy.nScans);
 aStudy.importedScanIDs = cell(aStudy.nScans,1);
+
 % Reference scan info (these are common to all scans after
 % verify_image_positions and align methods).  Store imagePositionPatient
 % (changed from refImagePositionPatient if resampling was performed).
@@ -252,7 +258,10 @@ aStudy.scans{iScan} = aScan.filename;
 aStudy.v(:,iScan) = aScan.v;
 aStudy.f(:,iScan) = aScan.f;
 aStudy.ekg(:,iScan) = aScan.ekg;
+aStudy.t(:,iScan) = aScan.t;
 aStudy.direction(iScan) = scanDirection;
+
+
 
 % Write image data to .nii for registration
 chkmkdir(fullfile(aStudy.folder,'nii'));

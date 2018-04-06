@@ -20,6 +20,8 @@ scanBellowsFlow = reshape(scanBellowsFlow, maxScanLength, aStudy.nScans);
 
 scanBellowsTime = arrayfun(@(x,y) bellowsTime(x:y-1), startIndices, stopIndices, 'UniformOutput', false);
 scanBellowsTime = cell2mat(cellfun(@(x) cat(1,x,nan(maxScanLength - length(x),1)), scanBellowsTime, 'UniformOutput',false));
+
+% Time is actually sample number
 scanBellowsTime = reshape(scanBellowsTime, maxScanLength, aStudy.nScans);
 
 scanEkg = arrayfun(@(x,y) ekg(x:y - 1), startIndices, stopIndices, 'UniformOutput', false);

@@ -23,7 +23,9 @@ properties(SetAccess = protected)
 
 	v % Synchronized breathing amplitude measurements for all slices
 	f % Synchronized breathing rate measurements for all slices
+    
 	ekg % Synchronized ekg measurements for all slices
+	t % Time points (in bellows time) that each slice was acquired at
 	drift % Drift rate of the bellows (V/.01s)
     direction % Direction of scan.  1 is foot to head, 0 head to foot.
     dim % Dimensions of images
@@ -87,12 +89,7 @@ methods
 
     end
     
-    function aScan = getScan(aStudy, scanNumber)
-        aScan = load(fullfile(aStudy.folder, sprintf('%02d.mat', scanNumber)));
-        aScan = aScan.aScan;
-    end
-
-    
+      
     function aStudy = set(aStudy,property,value)
 	aStudy.(property) = value;
 	end

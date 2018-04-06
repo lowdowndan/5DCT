@@ -1,6 +1,6 @@
 %% Load patient script
 
-function aPatient = load_patient(id)
+function load_patient(id)
 
 if(numel(num2str(id)) < 3)
 	% Zero pad
@@ -10,6 +10,9 @@ else
 end
 
 load(fullfile(fiveDdata,idStr,'patient.mat'));
+
+% Place in workspace
+assignin('base','aPatient',aPatient);
 
 end
 
