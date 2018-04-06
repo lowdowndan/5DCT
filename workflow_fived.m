@@ -34,7 +34,7 @@ aPatient.study.model.plot_overlays;
 
 
 %% Add sequence
-aPatient.study.model.add_sequence(aPatient.study.registration);
+aPatient.study.model.add_sequence(aPatient.study.breath);
 aPatient.study.model.sequence.set_reconstruction_points;
 aPatient.study.model.sequence.generate_scans;
 aPatient.study.model.sequence.push;

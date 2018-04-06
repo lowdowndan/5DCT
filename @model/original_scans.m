@@ -97,7 +97,8 @@ for jScan = 1:aModel.nScans
 %         end
 %        
 %     toc
-    imgSim = aModel.generate_image(v,f,aX,aY,aZ,bX,bY,bZ,cX,cY,cZ);
+    %imgSim = aModel.generate_image(v,f,aX,aY,aZ,bX,bY,bZ,cX,cY,cZ);
+    imgSim = aModel.deform_image(img,v,f,aX,aY,aZ,bX,bY,bZ,cX,cY,cZ);
   
     % Convert to nii
     scanFolder = fullfile(outputFolder,sprintf('%02d',iScan));
