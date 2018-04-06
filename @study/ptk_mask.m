@@ -9,7 +9,7 @@ end
 
 %% Load scan
 
-aScan = aStudy.getScan(scanNo);
+aScan = aStudy.get_scan(scanNo);
 
 %% Write scan to dicom temporarily
 

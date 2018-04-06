@@ -108,7 +108,7 @@ aSequence.dicomFolders{numel(aSequence.reconstructionPoints) + 2} = outDir;
 
 %% Write reference image (free-breathing)
 
-aScan = aSequence.model.study.getScan(aSequence.model.registration.refScan);
+aScan = aSequence.model.study.get_scan(aSequence.model.registration.refScan);
 outDir = fullfile(aSequence.folder,'ref');
 mkdir(outDir); 
 aScan.write_dicom(outDir);
