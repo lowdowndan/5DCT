@@ -19,8 +19,8 @@ fitBar = waitbar(0,'Fitting model parameters...');
 %% Set chunk size
 
 % More than 50 or so results in out of memory error for 12 GB GPU RAM
-% Reduced to 40 for clinical workstation 
-chunkSize = 40;
+% Reduced to 30 for clinical workstation 
+chunkSize = 30;
 nChunks = ceil(aStudy.dim(3) / chunkSize);
 nVoxelsSlice = aStudy.dim(1) * aStudy.dim(2);
 

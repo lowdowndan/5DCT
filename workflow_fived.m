@@ -28,6 +28,7 @@ tic
 aPatient.study.model.fit;
 toc
 aPatient.study.model.plot_residual;
+aPatient.study.model.original_scans;
 aPatient.study.model.plot_overlays;
         
 
