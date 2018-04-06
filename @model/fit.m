@@ -215,6 +215,7 @@ try
 end
 
 reset(gpuDevice);
+
 %cudaReset;
 aModel.study.patient.save;
 
