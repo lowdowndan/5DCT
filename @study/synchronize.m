@@ -39,7 +39,7 @@ end
 %% Prompt user for relevant region of breathing trace
 if(isempty(aStudy.dataRange))
     aStudy.set_data_range;
-    aStudy.patient.save;
+  %  aStudy.patient.save;
 end
 
 %% Get scan start/end times
