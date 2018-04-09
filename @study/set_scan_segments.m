@@ -21,6 +21,9 @@ tMin = .4;
 startIndices = peakfinder(xrayOnFiltered,dV,tMin,-1,0);
 stopIndices = peakfinder(xrayOnFiltered,dV,tMax,1,0);
 
+% Check number of large voltage jumps against number of scans
+assert(length(startIndices) == aStudy.nScans && length(stopIndices) == aStudy.nScans,'The number of scans computed from x-ray on signal does not match number of scans entered for this acquisition.')
+
 if startIndices(1) > stopIndices(1)
     swapTemp = startIndices;
     startIndices = stopIndices;
@@ -34,8 +37,6 @@ startIndices = startIndices + 1;
 aStudy.startScan = startIndices + dataRange(1) - 1;
 aStudy.stopScan = stopIndices + dataRange(1) - 1;
 
-% Check number of large voltage jumps against number of scans
-assert(length(startIndices) == aStudy.nScans && length(stopIndices) == aStudy.nScans,'The number of scans computed from x-ray on signal does not match number of scans entered for this acquisition.')
 
 
 
