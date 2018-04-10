@@ -15,7 +15,12 @@ aPatient.study.import_scans
   
 %% Add registration
 aPatient.study.add_registration(1);
+
+tic;
 aPatient.study.registration.register;
+registerTime = toc;
+disp(sprintf('Image registration took %.02f seconds.',registerTime));
+
 aPatient.study.registration.slice;
 aPatient.study.registration.set_representative_slices;
 aPatient.study.registration.plot_overlays;
@@ -24,9 +29,12 @@ aPatient.study.registration.get_average_image;
         
 %% Add model
 aPatient.study.add_model(aPatient.study.registration);
+aPatient.save;
 tic
 aPatient.study.model.fit;
-toc
+modelTime = toc;
+disp(sprintf('Model fitting took %.02f seconds.',modelTime));
+
 aPatient.study.model.plot_residual;
 aPatient.study.model.original_scans;
 aPatient.study.model.plot_overlays;
