@@ -45,14 +45,14 @@ aPatient.study.model.plot_overlays;
 aPatient.study.model.add_sequence(aPatient.study.breath);
 aPatient.study.model.sequence.set_reconstruction_points;
 aPatient.study.model.sequence.generate_scans;
-aPatient.study.model.sequence.push;
+%aPatient.study.model.sequence.push;
 
 % Report
-aPatient.study.report;
-aPatient.study.breath.report
-aPatient.study.registration.report;
-aPatient.study.model.report;
-aPatient.study.sequence.report;
+%aPatient.study.report;
+%aPatient.study.breath.report
+%aPatient.study.registration.report;
+%aPatient.study.model.report;
+%aPatient.study.sequence.report;
 
 compStr = sprintf('5DCT for Patient %s generated successfully.', num2str(aPatient.id));
 disp(compStr)
