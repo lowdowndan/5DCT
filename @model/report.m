@@ -8,7 +8,7 @@ lines = cell(2,1);
 % Add patient information to header
 lines{1} = sprintf('\\lhead{\\textbf{%s \\\\ %s, %s}\\\\ \\textbf{\\today}}',num2str(aModel.study.patient.id), aModel.study.patient.last,aModel.study.patient.first);
 
-logoPath = fullfile(getPath,'reporting','composite_logo');
+logoPath = fullfile(fiveDpath,'reporting','composite_logo');
 %logoPath = fullfile(getPath,'reporting','ucla');
 
 lines{2} = sprintf('\\rhead{\\includegraphics[width=.6\\textwidth]{"%s"}}', logoPath);
