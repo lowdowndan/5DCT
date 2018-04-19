@@ -1,7 +1,7 @@
 function report(aStudy)
 
 %% Load template
-texTemplate = importdata(fullfile(getPath,'reporting','template.tex'));
+texTemplate = importdata(fullfile(fiveDpath,'reporting','template.tex'));
 
 %% Generate lines to add to template
 lines = cell(2,1);
