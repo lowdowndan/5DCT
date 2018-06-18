@@ -9,6 +9,7 @@ aPatient.study.synchronize;
 %% Add breath
 aPatient.study.add_breath;
 aPatient.study.breath.set_representative(1);
+aPatient.study.breath.plot_histogram;
 
 %% Import scans
 aPatient.study.import_scans
@@ -52,7 +53,7 @@ aPatient.study.model.sequence.generate_scans;
 %aPatient.study.breath.report
 %aPatient.study.registration.report;
 %aPatient.study.model.report;
-%aPatient.study.sequence.report;
+%aPatient.study.model.sequence.report;
 
 compStr = sprintf('5DCT for Patient %s generated successfully.', num2str(aPatient.id));
 disp(compStr)

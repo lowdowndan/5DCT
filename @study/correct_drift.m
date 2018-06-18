@@ -12,21 +12,23 @@ drift = fminsearch(costFun,0,options);
 %assert(isequal(sign(drift), 1), 'FiveD:DriftWrongSign', 'Drift value has wrong sign; bellows signal should become increasingly positive.');
 maxDrift = -5e-03;
 
-% Validate
-assert(abs(drift) <= abs(maxDrift), 'FiveD:DriftMagTooLarge', 'Magnitude of drift correction exceeds maximum allowable value.');
-
-assert((abs(aStudy.driftedCorrelation) - abs(aStudy.initialCorrelation)) >= 0, 'Drift correction reduced correlation');
 
 
 drifted = aStudy.data(:,aStudy.channels.voltage);
 drifted = drifted - aStudy.data(:,1) * drift;
+voltagesDrifted = calibrationVoltages - (drift * calibrationTimes);
+driftedCorrelation = corr(voltagesDrifted,abdomenHeights);
 
+
+% Validate
+assert(abs(drift) <= abs(maxDrift), 'FiveD:DriftMagTooLarge', 'Magnitude of drift correction exceeds maximum allowable value.');
+assert((abs(driftedCorrelation) - abs(aStudy.initialCorrelation) >= 0), 'Drift correction reduced correlation');
+
+
+% Store
 aStudy.drift = drift;
 aStudy.data(:,aStudy.channels.voltage) = drifted;
-
-voltagesDrifted = calibrationVoltages - (drift * calibrationTimes);
-aStudy.driftedCorrelation = corr(voltagesDrifted,abdomenHeights);
-
+aStudy.driftedCorrelation = driftedCorrelation;
 
 
 % Call for save of patient object

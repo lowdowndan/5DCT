@@ -50,7 +50,7 @@ methods
 	end
 
     %% Validate input
-    validateattributes(id,{'numeric'},{'nonnegative','real','finite','nonnan','<=',9999999,'numel',1});
+    validateattributes(id,{'numeric'},{'nonnegative','real','finite','nonnan','<=',1e10,'numel',1});
 	
     end
 

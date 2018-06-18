@@ -3,7 +3,7 @@
 % Get info
 valid = false;
 while (~valid)
-userResp = inputdlg({'Patient ID (MRN)','Given (First) Name', 'Family (Last) Name'}, 'Enter patient information.', [1 30]);
+userResp = inputdlg({'Patient ID (MRN)','Given (First) Name', 'Family (Last) Name'}, 'Enter patient information.', [1 50]);
 
 % Was ID number provided?
 
