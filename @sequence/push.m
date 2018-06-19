@@ -15,6 +15,6 @@ port = '105';
 %% Push
 for iFolder = 1:length(aSequence.dicomFolders)
     
-    pushCmd = ['storescu ' ip ' ' port ' "' fullfile(aSequence.dicomFolders{iFolder},'*.dcm') '"'];
+    pushCmd = ['storescu --scan-directories ' ip ' ' port ' "' fullfile(aSequence.dicomFolders{iFolder}) '/"'];
     system(pushCmd);
 end

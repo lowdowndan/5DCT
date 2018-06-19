@@ -14,8 +14,8 @@ assert(isequal(numel(aSequence.reconstructionPoints), numel(aSequence.inhaleAmpl
 % Pre-allocate (1 for each recon point, then error and reference)
 % Order: 1 to N: 4DCT Phases; N + 1: MIP; N + 2 Error; N + 3 Reference
 
-aSequence.scans = cell(numel(aSequence.reconstructionPoints) + 3);
-aSequence.dicomFolders = cell(numel(aSequence.reconstructionPoints) + 3);
+aSequence.scans = cell(numel(aSequence.reconstructionPoints) + 3, 1);
+aSequence.dicomFolders = cell(numel(aSequence.reconstructionPoints) + 3, 1);
 
 
 %% Generate images and make scan objects
