@@ -9,8 +9,8 @@ assert(numel(aSequence.dicomFolders) == numel(aSequence.reconstructionPoints) + 
 
 %% MIM info
 
-ip = '10.6.27.11';
-port = '105';
+ip = '10.2.139.20';
+port = '104';
 
 %% Push
 for iFolder = 1:length(aSequence.dicomFolders)
