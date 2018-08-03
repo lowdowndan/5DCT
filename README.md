@@ -30,8 +30,11 @@ MATLAB R2014a or greater
 
 ### MATLAB File exchange submissions
 [Tools for NIfTI and ANALYZE image](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image) 
+
 [peakfinder](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image)
+
 [Graphical data selection tool](https://www.mathworks.com/matlabcentral/fileexchange/13857-graphical-data-selection-tool)
+
 [sigm_fit](https://www.mathworks.com/matlabcentral/fileexchange/42641-sigm_fit)
 
 
