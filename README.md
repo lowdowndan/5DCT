@@ -16,17 +16,16 @@ Dylan O'Connell, David H. Thomas, Tai H. Dou
 Department of Radiation Oncology  
 Univeristy of California, Los Angeles  
 
-
-## Installation
-
-
-
-### Prequisites
+## Prequisites
 
 ### General
-NVIDIA GPU with compute capability 3.5 or greater 
-[CUDA toolkit](https://developer.nvidia.com/cuda-downloads) version 7.0 or greater.
+NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or greater
+
 MATLAB R2014a or greater
+
+[DCMTK - DICOM Toolkit](https://dicom.offis.de/dcmtk.php.en)
+
+[The Pulmonary Toolkit](https://github.com/tomdoel/pulmonarytoolkit)
 
 ### MATLAB File exchange submissions
 [Tools for NIfTI and ANALYZE image](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image) 
