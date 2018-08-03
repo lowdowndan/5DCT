@@ -19,15 +19,15 @@ Univeristy of California, Los Angeles
 ## Prequisites
 
 ### General
-NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or greater
+MATLAB R2014a or greater; Image Processing Toolbox
 
-MATLAB R2014a or greater
+NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or greater
 
 [DCMTK - DICOM Toolkit](https://dicom.offis.de/dcmtk.php.en)
 
 [The Pulmonary Toolkit](https://github.com/tomdoel/pulmonarytoolkit)
 
-### MATLAB File exchange submissions
+### MATLAB 
 [Tools for NIfTI and ANALYZE image](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image) 
 
 [peakfinder](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image)
