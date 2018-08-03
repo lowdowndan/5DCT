@@ -36,6 +36,7 @@ NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or g
 
 [sigm_fit](https://www.mathworks.com/matlabcentral/fileexchange/42641-sigm_fit)
 
+[ConvertTDMS (v10)](https://www.mathworks.com/matlabcentral/fileexchange/44206-converttdms-v10)
 
 
 
