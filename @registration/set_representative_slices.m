@@ -28,16 +28,17 @@ end
 
 [~, maxInd] = max(nVoxels);
     
-[mm,~] = peakdet(nVoxels,5000);
-
+%[mm,~] = peakdet(nVoxels,5000);
+sel = (max(nVoxels) - min(nVoxels)) / 4;
+mm = peakfinder(nVoxels,sel);
 
 % Too many peaks?
 if(size(mm,1) > 2)
-    [mm,~] = peakdet(nVoxels,10000);
+mm = peakfinder(nVoxels,(2 * sel));
     
 % Not enough?
 elseif(size(mm,1) < 2)
-     [mm,~] = peakdet(nVoxels,1000);
+mm = peakfinder(nVoxels,(0.01 * sel));
 end
 
 % I give up
@@ -50,8 +51,8 @@ sagSliceL = maxInd;
 else
 
 % Working as intended    
-sagSliceR = mm(1,1);
-sagSliceL = mm(2,1);
+sagSliceR = mm(1);
+sagSliceL = mm(2);
   
 end
 
