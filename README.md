@@ -30,7 +30,7 @@ NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or g
 ### MATLAB 
 [Tools for NIfTI and ANALYZE image](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image) 
 
-[peakfinder](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image)
+[peakfinder](https://www.mathworks.com/matlabcentral/fileexchange/25500-peakfinder-x0-sel-thresh-extrema-includeendpoints-interpolate)
 
 [Graphical data selection tool](https://www.mathworks.com/matlabcentral/fileexchange/13857-graphical-data-selection-tool)
 
