@@ -16,7 +16,7 @@ Dylan O'Connell, David H. Thomas, Tai H. Dou
 Department of Radiation Oncology  
 Univeristy of California, Los Angeles  
 
-## Prequisites
+## Prerequisites
 
 ### General
 MATLAB R2014a or greater; Image Processing Toolbox
