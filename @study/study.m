@@ -43,6 +43,7 @@ properties(SetAccess = protected)
 	folder % Folder where data is stored
 	sampleRate % Sample rate of the data acquisition
     dataRange % Relevant region of the breathing trace
+    labviewDate % Date and time recorded by acquisition PC
     status % Status of the study object
     scanIDs % DICOM UIDs of the scans included in this study
     importedScanIDs % New UIDs for the scans after they have been imported
@@ -52,10 +53,10 @@ properties(SetAccess = protected)
     acquisitionInfo % Set of DICOM header information for output
     zPositions % Slice locations for this study's geometry
     imagePositionPatient % DICOM RCS coordinates of the first voxel center.
-    registration % Registrations associated with this study
     shifts % nScans x 3 matrix with shifts in x,y, and z, respectively, from each scan to the reference coordinate system.
-    
     refScan % Reference scan geometry
+    
+    registration % Registrations associated with this study
     breath % Representative breaths
     model % 5D Model
 
@@ -71,12 +72,22 @@ methods
 
 	% Set properties necessary to sync
 	aStudy.dicomFolder = dicomFolder;
-	aStudy.rawData = importdata(bellowsDataFilename);
-    aStudy.data = aStudy.rawData;
 	aStudy.nScans = nScans;
-    
-	 % Generate uuid
-	 aStudy.uuid = char(java.util.UUID.randomUUID);
+
+	% Import LABVIEW data
+
+	% .tmds file or legacy csv?
+	isTDMS = study.is_tdms(bellowsDataFilename);
+
+	if(isTDMS)
+	aStudy.import_tdms(bellowsDataFilename);
+	else
+	aStudy.import_legacy_labview(bellowsDataFilename);
+	end
+
+
+	% Generate uuid
+	aStudy.uuid = char(java.util.UUID.randomUUID);
     
 	% Make study folder, use uuid as folder name
 	chkmkdir(fullfile(fileparts(aPatient.filename),'studies'));
@@ -84,7 +95,7 @@ methods
 	chkmkdir(aStudy.folder);
 	chkmkdir(fullfile(aStudy.folder,'documents'));
    
-    % Save
+	% Save
 	notify(aStudy.patient,'statusChange');
 
     end
@@ -107,6 +118,7 @@ methods (Static)
     dcmTableRow = parse_dump(filename, dcmdumpResult)
     time = time2sec(dicomTime)
     xrayOnFiltered = filter_xrayOn(xrayOn,sz,sigma)
+    isTDMS = is_tdms(filename)
 end
 
 events

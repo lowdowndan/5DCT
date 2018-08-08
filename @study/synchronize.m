@@ -14,6 +14,7 @@ refScan = 1;
 end
 aStudy.refScan = refScan;
 
+  
 %% Select data channels
 if(isempty(aStudy.channels))
 	aStudy.set_channels;
@@ -23,7 +24,8 @@ end
 if(isempty(aStudy.bellowsInhaleDirection))
     aStudy.set_bellows_inhale_direction;
 end
-   
+
+
 
 %% Smooth voltage signal
 if(isempty(aStudy.bellowsSmoothingWindow))
