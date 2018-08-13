@@ -35,7 +35,7 @@ set(subsetFig,'units','normalized','position', [0.1000    0.1000    0.8100    0.
 title('Select a region of the breathing trace.');
 xlabel('Time (s)', 'fontsize',20);
 ylabel('Bellows Voltage (V)', 'fontsize', 20);
-pointList = selectdata('Action','list','SelectionMode','Rect','Identify','off','verify','on');
+pointList = selectdata('Action','list','SelectionMode','Rect','Identify','on');
 subsetFig.Color = [1 1 1];
 indStart = min(pointList);
 indEnd = max(pointList);
@@ -63,8 +63,8 @@ end
 %flowTrace = getFlow_sg(breathTrace);
 
 %% Get percentile values 
-pMin = prctile(breathTrace, 100 - percentileInterval(1));
-pMax = prctile(breathTrace, 100 - percentileInterval(2));
+pMin = prctile(breathTrace, percentileInterval(1));
+pMax = prctile(breathTrace, percentileInterval(2));
 
 %% Detect peaks and valleys
 [~, extrema] = breath.detect_peaks_valleys(breathTrace, aStudy.sampleRate);
@@ -206,9 +206,9 @@ representativeBreath = mat2gray(representativeBreath);
 
 representativeBreath = representativeBreath * (abs(pMin - pMax));
 
-% Shift representative breath so that max is at p5 (more negative = inhale)
-rMax = max(representativeBreath(:));
-shift = pMin - rMax;
+% Shift representative breath so that min is at p5 (more negative = inhale)
+rMin = min(representativeBreath(:));
+shift = pMin - rMin;
 
 representativeBreath = representativeBreath + shift; 
 
@@ -285,6 +285,10 @@ aBreath.startInd = aStudy.startScan(1) - relevanceWindow;
 aBreath.stopInd = aStudy.stopScan(end) + relevanceWindow;
 end
 
+
+% Fix offset
+aBreath.startInd = aBreath.startInd + aBreath.study.startScan(1) - 1;
+aBreath.stopInd = aBreath.stopInd + aBreath.study.startScan(1) - 1;
 
 %% Save
 aBreath.study.patient.save;
