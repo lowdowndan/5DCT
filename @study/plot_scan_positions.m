@@ -66,7 +66,7 @@ for jScan = 1 : nScansValid
 	sharedPoints = allZpositions{iScan}(allZpositions{iScan} > sharedMin & allZpositions{iScan} < sharedMax);
 
 	% Determine if they are the same as the the reference image
-	if(isequal(numel(sharedPoints),numel(commonRefZpositions)) && max(abs(bsxfun(@minus,sharedPoints,commonRefZpositions))) > tolerance)
+	if(isequal(numel(sharedPoints),numel(commonRefZpositions)) & max(abs(bsxfun(@minus,sharedPoints,commonRefZpositions))) > tolerance)
 
 		plot(iScan,min(sharedPoints),'s', 'color', cOrange, 'markerfacecolor', cOrange);
 		hold on;
