@@ -1,7 +1,7 @@
 function aModel = fit(aModel)
 
 aStudy = aModel.study;
-aRegistration = aModel.registration;         
+%aRegistration = aModel.registration;         
 
 %% Preallocate
 
@@ -10,8 +10,8 @@ meanResidual = zeros(aStudy.dim, 'single');
 
 %% Scans      
 nScans = aModel.nScans;
-v = single(aStudy.v);
-f = single(aStudy.f);
+v = single(aStudy.v(:,aModel.runScans));
+f = single(aStudy.f(:,aModel.runScans));
 dim = double(aStudy.dim);
 
 fitBar = waitbar(0,'Fitting model parameters...');
