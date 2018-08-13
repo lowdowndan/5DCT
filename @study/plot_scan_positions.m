@@ -74,14 +74,18 @@ for jScan = 1 : nScansValid
 		hold on;
 		hInterpolate = plot([iScan iScan],[min(sharedPoints) max(sharedPoints)],'-.', 'color', cOrange, 'linewidth',2.0);
 		hold on;
-
+        
+    elseif(isequal(numel(sharedPoints), 0))
+        
+        % Do nothing
+        
 	else
 
 		plot(iScan,min(sharedPoints),'s', 'color', cBlue, 'markerfacecolor', cBlue);
 		hold on;
 		plot(iScan,max(sharedPoints),'s', 'color', cBlue, 'markerfacecolor', cBlue);
 		hold on;
-		hCoinicident = plot([iScan iScan],[min(sharedPoints) max(sharedPoints)],'-', 'color', cBlue, 'linewidth',2.0);
+		hCoincident = plot([iScan iScan],[min(sharedPoints) max(sharedPoints)],'-', 'color', cBlue, 'linewidth',2.0);
 		hold on;
 	end
 end
@@ -98,17 +102,24 @@ xlabel('Scan number');
 ylabel('Slice location (mm)')
 
 
-if (exist('hInterpolate','var') && exist('hExclude','var'))
-hLegend = legend([hCoinicident, hInterpolate, hExclude], 'Coincident', 'Interpolated','Outside range','location','northeastoutside');
+if (exist('hInterpolate','var') && exist('hExclude','var') && exist('hCoincident','var'))
+hLegend = legend([hCoincident, hInterpolate, hExclude], 'Coincident', 'Interpolated','Outside range','location','northeastoutside');
 
-elseif (exist('hExclude','var') && ~exist('hInterpolate','var'))
-hLegend = legend([hCoinicident, hExclude], 'Coincident','Outside range','location','northeastoutside');
+elseif (exist('hExclude','var') && ~exist('hInterpolate','var') && exist('hCoincident','var'))
+hLegend = legend([hCoincident, hExclude], 'Coincident','Outside range','location','northeastoutside');
 
-elseif (exist('hInterpolate','var') && ~exist('hExclude', 'var'))
-hLegend = legend([hCoinicident, hInterpolate], 'Coincident','Interpolated','location','northeastoutside');
+elseif (exist('hInterpolate','var') && ~exist('hExclude', 'var') && exist('hCoincident','var'))
+hLegend = legend([hCoincident, hInterpolate], 'Coincident','Interpolated','location','northeastoutside');
+
+elseif(~exist('hExclude','var') && exist('hInterpolate','var') && ~exist('hCoincident','var'))
+hLegend = legend([hInterpolate],'Interpolated','location','northeastoutside');
+
+elseif(exist('hExclude','var') && ~exist('hInterpolate','var') && ~exist('hCoincident','var'))
+hLegend = legend([hExclude],'Excluded','location','northeastoutside');
+
 
 else
-hLegend = legend([hCoinicident], 'Coincident','location','northeastoutside');
+hLegend = legend([hCoincident], 'Coincident','location','northeastoutside');
 
 end
     
