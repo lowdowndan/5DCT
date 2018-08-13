@@ -21,8 +21,30 @@ driftedCorrelation = corr(voltagesDrifted,abdomenHeights);
 
 
 % Validate
-assert(abs(drift) <= abs(maxDrift), 'FiveD:DriftMagTooLarge', 'Magnitude of drift correction exceeds maximum allowable value.');
-assert((abs(driftedCorrelation) - abs(aStudy.initialCorrelation) >= 0), 'Drift correction reduced correlation');
+
+DriftMagTooLarge = (abs(drift) > abs(maxDrift));
+DriftCorrBad = (abs(driftedCorrelation) - abs(aStudy.initialCorrelation) < 0);
+
+if(DriftMagTooLarge)
+    warning('Magnitude of drift correction exceeds maximum allowable value.');
+end
+
+if(DriftCorrBad)
+    warning('Computed drift correction would reduce correlation.')
+end
+
+% Use raw bellows if drift can't be fixed
+
+if(DriftMagTooLarge || DriftCorrBad)
+    warning('Drift correction not applied.  Raw bellows signal will be used for model fitting.');
+    drifted = aStudy.data(:,aStudy.channels.voltage);
+    drift = 0;
+    driftedCorrelation = aStudy.initialCorrelation;
+end
+
+
+%assert(abs(drift) <= abs(maxDrift), 'FiveD:DriftMagTooLarge', 'Magnitude of drift correction exceeds maximum allowable value.');
+%assert((abs(driftedCorrelation) - abs(aStudy.initialCorrelation) >= 0), 'Drift correction reduced correlation');
 
 
 % Store
