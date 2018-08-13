@@ -63,8 +63,8 @@ end
 %flowTrace = getFlow_sg(breathTrace);
 
 %% Get percentile values 
-pMin = prctile(breathTrace, percentileInterval(1));
-pMax = prctile(breathTrace, percentileInterval(2));
+aBreath.pMin = prctile(breathTrace, percentileInterval(1));
+aBreath.pMax = prctile(breathTrace, percentileInterval(2));
 
 %% Detect peaks and valleys
 [~, extrema] = breath.detect_peaks_valleys(breathTrace, aStudy.sampleRate);
@@ -204,11 +204,11 @@ end
 %% Scale representative breath
 representativeBreath = mat2gray(representativeBreath);
 
-representativeBreath = representativeBreath * (abs(pMin - pMax));
+representativeBreath = representativeBreath * (abs(aBreath.pMin - aBreath.pMax));
 
 % Shift representative breath so that min is at p5 (more negative = inhale)
 rMin = min(representativeBreath(:));
-shift = pMin - rMin;
+shift = aBreath.pMin - rMin;
 
 representativeBreath = representativeBreath + shift; 
 
@@ -287,8 +287,8 @@ end
 
 
 % Fix offset
-aBreath.startInd = aBreath.startInd + aBreath.study.startScan(1) - 1;
-aBreath.stopInd = aBreath.stopInd + aBreath.study.startScan(1) - 1;
+aBreath.startInd = aBreath.startInd + aBreath.study.startScan(1);
+aBreath.stopInd = aBreath.stopInd + aBreath.study.startScan(1);
 
 %% Save
 aBreath.study.patient.save;

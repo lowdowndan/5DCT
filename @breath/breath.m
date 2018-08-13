@@ -14,6 +14,8 @@ uuid
 study
 folder
 percentileInterval
+pMin
+pMax
 
 
 end
