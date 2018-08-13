@@ -39,7 +39,7 @@ end
 
 
 	% Preallocate dRegistration matrix for this chunk (contains dvf data for all voxels all scans)
-	dRegistration = zeros(aStudy.nScans, (nVoxelsSlice * 3 * nSlicesChunk),'single');
+	dRegistration = zeros(nScans, (nVoxelsSlice * 3 * nSlicesChunk),'single');
 
 	% Read data from disk
 	for jSlice = 1: nSlicesChunk
