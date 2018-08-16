@@ -68,6 +68,7 @@ zPositions = zPositions(3:3:end);
 referenceFrame = dicominfo(dicomTable{firstSlice,1});
 referenceFrame = referenceFrame.FrameOfReferenceUID;
 
+elementSpacing = [pixelSpacing(:)' sliceThickness];
 % Set acquisition info, if this scan is the reference scan
 if(iScan == refScan)
 
@@ -77,6 +78,10 @@ refZpositions = zPositions;
 
 % Set acquisition date, and info (used for writing to DICOM).
 aStudy.set_acquisition_info(dicomTable);
+
+% Set element spacing.  If subsequent scans were acquired with a different
+% element spacing, interpolate to correct
+refElementSpacing = elementSpacing;
 
 % Set patient name and mrn
 %aStudy.setPatientInfo(dicomTable);
@@ -203,12 +208,12 @@ scanImage = (scanImage .*  rescale(1)) + rescale(2);
 
 % Write scan
 aScan = scan(aStudy, aStudy.acquisitionInfo, imagePositionPatient, zPositions);
-aScan.set_original(scanImage, iScan, [pixelSpacing(:)' sliceThickness], sliceFilenames, ...
+aScan.set_original(scanImage, iScan, elementSpacing, sliceFilenames, ...
     bellowsVoltageSlices, flowSlices, acqEkgSlices, timeSlices, scanDirection, aStudy.studyUID);
 
 % Set the reference image position patient (before resampling to 1x1x1) if this is the
 % reference scan
-if isequal(iScan, refScan)
+if iScan == refScan
 
    refImagePositionPatient = imagePositionPatient;
 
@@ -216,8 +221,9 @@ else
     
     % If this is not the reference scan, verify that this scan is at the
     % same location as the reference.  Align if necessary.
-    if (~isequal(refZpositions,zPositions) || ( ~isequal(refImagePositionPatient(1),imagePositionPatient(1))) || (~isequal(refImagePositionPatient(2),imagePositionPatient(2))))
-    aStudy.shifts(iScan,:) = aScan.align(refZpositions, refImagePositionPatient);
+    if (~isequal(refZpositions,zPositions) || ( ~isequal(refImagePositionPatient(1),imagePositionPatient(1))) ...
+            || (~isequal(refImagePositionPatient(2),imagePositionPatient(2))) || (~isequal(refElementSpacing,elementSpacing)))
+    aStudy.shifts(iScan,:) = aScan.align(refZpositions, refImagePositionPatient, refElementSpacing);
     end
     
 end
