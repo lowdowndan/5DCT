@@ -1,4 +1,4 @@
-# 5Dv2
+# 5DCT
 5D Toolbox
 
 MATLAB software suite for 5DCT, a novel breathing-gated CT image 
@@ -19,7 +19,6 @@ Univeristy of California, Los Angeles
 ## Prerequisites
 
 ### General
-MATLAB R2014a or greater; Image Processing Toolbox
 
 NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or greater
 
@@ -28,6 +27,9 @@ NVIDIA GPU with compute capability 3.5 or greater; CUDA Toolkit version 7.0 or g
 [The Pulmonary Toolkit](https://github.com/tomdoel/pulmonarytoolkit)
 
 ### MATLAB 
+
+Version R2014a or greater; Image Processing Toolbox
+
 [Tools for NIfTI and ANALYZE image](https://www.mathworks.com/matlabcentral/fileexchange/8797-tools-for-nifti-and-analyze-image) 
 
 [peakfinder](https://www.mathworks.com/matlabcentral/fileexchange/25500-peakfinder-x0-sel-thresh-extrema-includeendpoints-interpolate)

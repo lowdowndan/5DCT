@@ -119,6 +119,7 @@ methods (Static)
     time = time2sec(dicomTime)
     xrayOnFiltered = filter_xrayOn(xrayOn,sz,sigma)
     isTDMS = is_tdms(filename)
+    [bellowsData, channels] = convert_tdms(bellowsDataFilename)
 end
 
 events

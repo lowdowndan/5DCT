@@ -88,12 +88,12 @@ end
 assert(validScans(1),'Reference scan has missing slices.');
 
 %% Find shared range
-nScansValid = sum(validScans);
+%nScans = numel(validScans);
 
 % Get all z positions
-allZpositions = cell(nScansValid,1);
+allZpositions = cell(nScansTotal,1);
 
-for iScan = 1:nScansValid
+for iScan = 1:nScansTotal
 seriesInds = strcmp(scanIDs(iScan),dicomTable(:,2));
 allZpositions{iScan} = cell2mat(dicomTable(seriesInds,4));
 % Take only Z coordinate from image position patient vector
@@ -101,9 +101,14 @@ allZpositions{iScan} = allZpositions{iScan}(3:3:end);
 allZpositions{iScan} = sort(allZpositions{iScan},'ascend');
 end
 
+% Remove invalid scans here
+allZpositions = allZpositions(validScans);
+validScans = true(length(allZpositions),1);
+nScansValid = sum(validScans);
+
 % Find the minimum maximum, and maximum minimum present in all scans
-sharedMin = max(cellfun(@min,allZpositions(validScans)));
-sharedMax = min(cellfun(@max,allZpositions(validScans)));
+sharedMin = max(cellfun(@min,allZpositions));
+sharedMax = min(cellfun(@max,allZpositions));
 
 % Get the z positions of the reference that are within the common range
 commonRefZpositions = allZpositions{1}(allZpositions{1} > sharedMin & allZpositions{1} < sharedMax);
@@ -243,7 +248,7 @@ f = getframe(sliceFig);
 imwrite(f.cdata,fullfile(documentFolder,'scanSelection.png'),'png');
 close(sliceFig);
 
-%% Renumber scans
+%% Renumber scans, remove unused ones
 aStudy.nScans = sum(validScans);
 aStudy.startScan(~validScans) = [];
 aStudy.stopScan(~validScans) = [];
