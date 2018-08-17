@@ -17,8 +17,15 @@ if nargin == 1
 
 validateattributes(aPatient,{'patient'},{});
 
+% Check if user has a starting directory saved
+if(ispref('fiveD','studyStartDir'))
+    studyStartDir = getpref('fiveD','studyStartDir');
+else
+    studyStartDir = '';
+end
 
-dicomFolder = uigetdir('','Select folder containing the dicom files for this study.');
+
+dicomFolder = uigetdir(studyStartDir,'Select folder containing the dicom files for this study.');
 [bellowsDataFilename,bellowsPath] = uigetfile('*.*','Select the file containing the bellows measurement.',dicomFolder);
 bellowsDataFilename = fullfile(bellowsPath,bellowsDataFilename);
 
