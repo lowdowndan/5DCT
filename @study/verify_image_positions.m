@@ -30,11 +30,21 @@ end
 if aStudy.nScans < size(scanIDs,1)
     
 warning(sprintf('Dicoms for %d scans found, but the number of scans was set to %d.  Synchronizing only the first %d scans.', size(scanIDs,1), aStudy.nScans, aStudy.nScans));
-
 unusedScans = cellfun(@(x) any(strcmp(x, scanIDs(aStudy.nScans + 1:end))), dicomTable(:,2));
 %dicomTable(unusedScans,:) = [];
 scanIDs(aStudy.nScans + 1:end) = [];
 sliceCounts = cellfun(@(x) nnz(strcmp(x,dicomTable(:,2))), scanIDs);
+
+elseif size(scanIDs,1) < aStudy.nScans
+warning('Number of scans was set to %d, but only DICOM files for only %d scans were found.  Synchronizing only the first %02d scans.', ...
+    aStudy.nScans, size(scanIDs,1), size(scanIDs,1));
+
+% Update number of scans
+aStudy.nScans = size(scanIDs,1);
+
+% Remove start/stop time data for scans that weren't found
+aStudy.startScan = aStudy.startScan(1:aStudy.nScans);
+aStudy.stopScan = aStudy.stopScan(1:aStudy.nScans);
 
 end
 
@@ -103,6 +113,8 @@ end
 
 % Remove invalid scans here
 allZpositions = allZpositions(validScans);
+aStudy.startScan = aStudy.startScan(validScans);
+aStudy.stopScan = aStudy.stopScan(validScans);
 validScans = true(length(allZpositions),1);
 nScansValid = sum(validScans);
 
