@@ -44,7 +44,9 @@ for iScan = 1: numel(aSequence.reconstructionPoints)
     aSequence.scans{iScan} = aScan.filename;
     
     % Write dicom
-    outDir = fullfile(aSequence.folder,aSequence.reconstructionPoints(iScan).description);
+    desc = aSequence.reconstructionPoints(iScan).description;
+    desc(isspace(desc)) = '_';
+    outDir = fullfile(aSequence.folder,desc);
     mkdir(outDir);  
     
     aSequence.dicomFolders{iScan} = outDir;
