@@ -1,34 +1,69 @@
-function aScan = write_dicom(aScan, outputFolder)
+%WRITE_DICOM_ANON Write scan to anonymized DICOM.
+% aScan.write_dicom_anon(outputFolder) generates a random patient name, ID, and 
+% StudyUID and writes the scan to outputFolder.
+%
+% aScan.write_dicom_anon(outputFolder, first, last, id, studyUID, seriesDescription) writes the
+% scan to outputFolder with DICOM tags PatientName.GivenName = First,
+% PatientName.FamilyName = last, PatientID = id, StudyUID = studyUID,
+% and SeriesDescription = SeriesDescription.
+
+function aScan = write_dicom_anon(aScan, outputFolder, first, last, id, studyUID, seriesDescription)
+
 
 %% Create output folder
 chkmkdir(outputFolder);
 
-%% Dicom UID values for this scan and its associated study
-if isempty(aScan.studyUID)
-    aScan.studyUID = dicomuid;
-    studyUID = aScan.studyUID;
-    aScan.save;
-else
-    studyUID = aScan.studyUID;
+% Anonymize
+anonStr = randi(9,1,6);
+anonStr = num2str(anonStr);
+anonStr = anonStr(~isspace(anonStr));
+
+% First
+if ~(exist('first','var') && ~isempty(first))
+
+	first = ['Anon' anonStr];
 end
 
-%% Study and series descriptions
+% Last
+if ~(exist('last','var') && ~isempty(last))
 
+	last = ['Anon' anonStr];
+end
+
+% ID
+if ~(exist('id','var') && ~isempty(id))
+
+	id = ['Anon' anonStr];
+end
+
+% studyUID
+if ~(exist('studyUID','var') && ~isempty(studyUID))
+
+	studyUID = dicomuid;
+end
+
+% seriesDescription
+if ~(exist('seriesDescription','var') && ~isempty(seriesDescription))
+
+	if(isempty(aScan.seriesDescription))
+	seriesDescription = 'Anonymized 5D';
+	else
+	seriesDescription = aScan.seriesDescription;
+	end
+end
+
+
+% study description
 if isempty(aScan.studyDescription)
     aScan.studyDescription = sprintf('5D Clinical Protocol');
-    warning('No StudyDescription tag for this scan.  Writing default.')
-end
-
-if isempty(aScan.seriesDescription)
-    aScan.seriesDescription = '5D Scan';
-    warning('No SeriesDescription tag for this scan.  Writing default.')
+%    warning('No StudyDescription tag for this scan.  Writing default.')
 end
 
 %% Load image
 
 if(isempty(aScan.img) && aScan.original)
     
-img = aScan.getImage;
+img = aScan.get_image;
 else
 
 assert(~isempty(aScan.img), 'Missing image, cannot write to DICOM.');    
@@ -51,14 +86,84 @@ sliceHeader.ConversionType = 'WSD';
 sliceHeader.SliceThickness = 1;
 sliceHeader.ImagePositionPatient = aScan.imagePositionPatient;
 
-% Anonymize
-sliceHeader.PatientID = '123456789'
-sliceHeader.PatientBirthDate = '20000101'
-sliceHeader.PatientName = struct('FamilyName','Patient','GivenName','Test')
+%% Stuff to scrub from header
+% from:
+% Aryanto KY, Oudkerk M, van Ooijen PM. Free DICOM de-identification tools in
+% clinical research: functioning and safety of patient privacy. European
+% radiology. 2015 Dec 1;25(12):3685-95.
+
+scrubFields = {
+'StudyDate'
+'SeriesDate'
+'AcquisitionDate'
+'ContentDate'
+'OverlayDate'
+'CurveDate'
+'AcquisitionDatetime'
+'StudyTime'
+'SeriesTime'
+'AcquisitionTime'
+'ContentTime'
+'OverlayTime'
+'CurveTime'
+'AccessionNumber'
+'InstitutionName'
+'InstitutionAddress'
+'ReferringPhysiciansName'
+'ReferringPhysiciansAddress'
+'ReferringPhysiciansTelephoneNumber'
+'ReferringPhysicianIDSequence'
+'InstitutionalDepartmentName'
+'PhysicianOfRecord'
+'PhysicianOfRecordIDSequence'
+'PerformingPhysiciansName'
+'PerformingPhysicianIDSequence'
+'NameOfPhysicianReadingStudy'
+'PhysicianReadingStudyIDSequence'
+'OperatorsName'
+'PatientsName'
+'PatientID'
+'IssuerOfPatientID'
+'PatientsBirthDate'
+'PatientsBirthTime'
+'PatientsSex'
+'OtherPatientIDs'
+'OtherPatientNames'
+'PatientsBirthName'
+'PatientsAge'
+'PatientsAddress'
+'PatientsMothersBirthName'
+'CountryOfResidence'
+'RegionOfResidence'
+'PatientsTelephoneNumbers'
+'StudyID'
+'CurrentPatientLocation'
+'PatientsInstitutionResidence'
+'DateTime'
+'Date'
+'Time'
+'PersonName'};
+
+
+% Remove
+sliceFields = fieldnames(sliceHeader);
+matches = ismember(sliceFields,scrubFields);
+nScrub = nnz(matches);
+toScrub = find(matches);
+
+for iScrub = 1:nScrub
+	sliceHeader.(sliceFields{toScrub(iScrub)}) = '';
+end
+
+
+% Reinsert anonymized tags 
+sliceHeader.PatientID = id;
+sliceHeader.PatientName = struct('FamilyName',last,'GivenName',first);
+sliceHeader.StudyInstanceUID = studyUID;
+sliceHeader.SeriesDescription = seriesDescription;
 
 
 % Modify manufacturer tag if scan is dervived
-
 if(~aScan.original)
     %sliceHeader.Manufacturer = '5DCT';
 end

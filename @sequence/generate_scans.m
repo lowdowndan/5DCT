@@ -80,23 +80,31 @@ if(exist(fullfile(aSequence.model.folder,'error.mat'),'file'))
     % load error image
 else
     warning('Model error not found.  Using mean residual.');
-    error = aSequence.model.get_mean_residual;
+
+    errorImg = aSequence.model.get_mean_residual;
 end
 
+% Mask error
+mask = aSequence.model.study.get_mask;
+mask = single(mask);
+errorImg = errorImg .* mask;
 
 % Deform to 0% (find minimum amplitude)
 [~, minPhase] = min([aSequence.reconstructionPoints.amplitude]);
     
 v = aSequence.reconstructionPoints(minPhase).v;
 f = aSequence.reconstructionPoints(minPhase).f;
-error = aSequence.model.deform_image(error,v,f,aX,aY,aZ,bX,bY,bZ,cX,cY,cZ);
+errorImg = aSequence.model.deform_image(errorImg,v,f,aX,aY,aZ,bX,bY,bZ,cX,cY,cZ);
+
+
+
     
 % Error scan
 aScan = scan(aSequence, aSequence.model.study.acquisitionInfo, aSequence.model.study.imagePositionPatient, aSequence.model.study.zPositions);
 % errorDesc = aSequence.reconstructionPoints(minPhase).description;
 errorDesc = 'Error Image End Exhale';
     
-aScan.set_derived(error, v, f, aSequence.studyUID,errorDesc);
+aScan.set_derived(errorImg, v, f, aSequence.studyUID,errorDesc);
 aScan.set('filename',fullfile(aSequence.folder,'error.mat'));
 aScan.save;
     

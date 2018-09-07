@@ -9,7 +9,7 @@ descMatch = contains(descList,phaseDesc,'IgnoreCase',1);
 descMatch = find(descMatch,1,'first');
 
 aScan = load(aSequence.scans{descMatch});
-scanName = fieldanmes(aScan);
+scanName = fieldnames(aScan);
 aScan = aScan.(scanName{1});
 
 end
