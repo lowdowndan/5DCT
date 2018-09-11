@@ -57,12 +57,12 @@ newIncrement = sign(aScan.zPositions(2) - aScan.zPositions(1)) * newElementSpaci
 zStart = aScan.zPositions(1) - (oldIncrement / 2) + (newIncrement / 2);
 %zEnd = aScan.zPositions(end) - (aScan.elementSpacing(3) / 2) + (newElementSpacing(3) / 2); 
 zEnd = aScan.zPositions(end) + (oldIncrement / 2) - (newIncrement / 2); 
+%zEnd = aScan.zPositions(end); 
 
 zi = zStart: newIncrement : zEnd;
-
+%keyboard
 [XI,YI,ZI] = meshgrid(xi,yi,zi);
-
-img = interp3(XX,YY,ZZ,img,XI,YI,ZI,'linear', -1024);
+img = interp3(XX,YY,ZZ,img,XI,YI,ZI,'linear',-1024);
 
 %% Resample surrogates if this is a free-breathing scan
 if(numel(aScan.v) > 1)

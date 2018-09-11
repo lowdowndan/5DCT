@@ -75,10 +75,10 @@ end
 
 % Template for DICOM header information
 sliceHeader = aScan.acquisitionInfo;
-sliceHeader.SeriesInstanceUID = aScan.seriesUID;
-sliceHeader.StudyInstanceUID = aScan.studyUID;
+sliceHeader.SeriesInstanceUID = dicomuid;
+%sliceHeader.StudyInstanceUID = aScan.studyUID;
 sliceHeader.StudyDescription = char(aScan.studyDescription);
-sliceHeader.SeriesDescription = char(aScan.seriesDescription);
+%sliceHeader.SeriesDescription = char(aScan.seriesDescription);
 sliceHeader.PixelSpacing = [1; 1];
 sliceHeader.Rows = size(img,1);
 sliceHeader.Columns = size(img,2);
