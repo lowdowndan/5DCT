@@ -7,7 +7,7 @@ assert(isequal(numel(aSequence.reconstructionPoints), numel(aSequence.inhaleAmpl
 descList = {aSequence.reconstructionPoints.description};
 descMatch = contains(descList,phaseDesc,'IgnoreCase',1);
 descMatch = find(descMatch,1,'first');
-
+descMatch = single(descMatch);
 aScan = load(aSequence.scans{descMatch});
 scanName = fieldnames(aScan);
 aScan = aScan.(scanName{1});
