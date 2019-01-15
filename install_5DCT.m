@@ -57,6 +57,9 @@ else
 end
 
 
+%% Set working directories
+set_5DCT_working_directories;
+
 %% Compile mex functions
 ogDir = pwd;
 cd(fullfile(fiveDpath,'@model'))

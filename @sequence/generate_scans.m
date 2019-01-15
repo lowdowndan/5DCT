@@ -127,4 +127,7 @@ aScan.write_dicom(outDir);
 aSequence.scans{numel(aSequence.reconstructionPoints) + 3} = aScan.filename;
 aSequence.dicomFolders{numel(aSequence.reconstructionPoints) + 3} = outDir;
     
+
+% Save
+aSequence.model.study.patient.save;
 end

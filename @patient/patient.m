@@ -41,11 +41,11 @@ methods
     % aPatient = patient(id) creates a patient object with identification number id.
     	
     %% Check if this is test/qa patient	
-	if strcmp(id,'test')
-	folder = fullfile(fiveDdata,'test','testPatient');
+	if strcmp(id,'qa')
+	folder = fullfile(fiveDdata,'qa','qa_patient');
 	chkmkdir(folder);
 	aPatient.filename = fullfile(folder,'patient.mat');
-	aPatient.id = 'test';
+	aPatient.id = 'qa';
 	return;
 	end
 

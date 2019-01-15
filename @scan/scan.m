@@ -73,6 +73,7 @@ methods
 end
 
 methods (Static)
+push(scanFolder)
 end
 
 end

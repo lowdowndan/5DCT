@@ -1,6 +1,8 @@
 %IMPORT_TDMS Import surrogate, EKG, and x-ray on data saved 
 % in LabVIEW .tdms format.
-%
+% [bellowsData,channels] = convert_tdms(bellowsDataFilename) returns
+% the bellows data and a structure with the column number corresponding
+% to each data channel.
 
 function [bellowsData,channels] = convert_tdms(bellowsDataFilename)
 

@@ -2,7 +2,7 @@ function aStudy = synchronize(aStudy, refScan)
 
 %% Verify that study has not already been synchronized;
 if(strcmp(aStudy.status,'synchronized'))
-error('This study has already been synchronized.  Overwriting synchronized data is not allowed.  Please create a new study.');
+%error('This study has already been synchronized.  Overwriting synchronized data is not allowed.  Please create a new study.');
 end
 
 

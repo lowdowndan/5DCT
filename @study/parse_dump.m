@@ -1,5 +1,5 @@
 % Parse output of dcmdump (part of DCMTK).  If a file is not valid, return
-% nan.
+% empty row.
 
 function dcmTableRow = parse_dump(filename, dcmdumpResult)
 
@@ -40,9 +40,11 @@ dataEnd = cell2mat(dataEnd) - 1;
 
 %Handle topogram
 if length(dataStart) < 8
-    warning(sprintf('File %s is likely a topogram.  Ignoring.',filename));
+% Removing this warning temporarily
+%    warning(sprintf('File %s is likely a topogram.  Ignoring.',filename));
     %dcmTableRow{2} = dcmdumpResult{3}(dataStart(2):dataEnd(2));
-    dcmTableRow{1} = nan;
+   % dcmTableRow{1} = nan;
+    dcmTableRow = cell(1,nColumns);
     return;
 end
 

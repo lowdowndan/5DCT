@@ -136,7 +136,13 @@ else
     subfolderRows = cell(0,numColumns);
 end
 	
+
+
 dicomTable = cat(1,folderRows,subfolderRows);
+
+%% Remove ignored entries (empty rows)
+emptyMask = cellfun(@isempty,dicomTable(:,1));
+dicomTable(emptyMask,:) = [];
 
 %% Convert acquisition time to seconds from midnight
 for iRow = 1:length(dicomTable)
