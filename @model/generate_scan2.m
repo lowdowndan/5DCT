@@ -1,9 +1,9 @@
 %% generate_scan
 
-%function aScan = generate_scan2(aModel, v, f, studyUID, description, img)
 function aScan = generate_scan2(aModel, v, f, varargin)
 
 
+%% Parse inputs
 
 aParser = inputParser;
 
@@ -13,34 +13,28 @@ tol = (range(vv(:)) * .1);
 vMin = min(vv(:)) - tol;
 vMax = max(vv(:)) + tol;
 
+aParser.addRequired('v', @(x) validateattributes(x,{'numeric'},{'finite','nonnan','scalar','>=', vMin, '<=', vMax}));
+aParser.addRequired('f', @(x) validateattributes(x,{'numeric'},{'finite','nonnan','scalar'}));
+
+aParser.addOptional('studyUID', dicomuid, @(x)validateattributes(x, {'char'},{'nonempty'}));
+aParser.addOptional('img',nan, @(x)validateattributes(x,{'numeric'},{'size',aModel.study.dim, 'finite','nonnan'}));
+aParser.addOptional('description', '', @(x)validateattributes(x,{'char'},{'nonempty'}));
 
 
-aParser.addRequired('v', @(x)validateattributes(x,{'numeric'},{'finite','nonnan','scalar','>=', vMin, '<=', vMax));
-aParser.addRequired('f', @(x)validateattributes(x,{'numeric'},{'finite','nonnan','scalar'}))
+aParser.parse(v,f,varargin{:});
 
-	aParser.
-
-
-%isvalid_f = @(x) x < (max(aModel.study.f(:)) + (range(aModel.study.f(:)) * .1)) && x > (min(aModel.study.f(:)) - (range(aModel.study.f(:)) * .1)) || x == 0;
-
-studyUID, description, img)
+v = aParser.Results.v;
+f = aParser.Results.f;
+studyUID = aParser.Results.studyUID;
+img = aParser.Results.img;
+description = aParser.Results.description;
 
 
-
-% Generate image if needed 
-if(~exist('img','var'))
-img = aModel.generate_image(v,f);
+%% Was image passed?
+if(numel(img) == 1 && isnan(img))
+	img = aModel.registration.get_average_image;
 end
+
 
 aScan = scan(aModel, aModel.study.acquisitionInfo, aModel.study.imagePositionPatient, aModel.study.zPositions);
-
-
-if(~exist('description','var'))
-	description = '5D Dervied Scan';
-end
-
-if(~exist('studyUID','var'))
-	studyUID = dicomuid;
-end
-
 aScan.set_derived(img, v, f, studyUID, description);

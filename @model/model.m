@@ -42,8 +42,8 @@ methods
     if (exist('runScans','var'))
         runScans = sort(runScans,'ascend');
         aModel.nScans = numel(runScans);
-	assert((aModel.nScans >= 3), 'At least 3 scans must be included in a model.');
         aModel.runScans = runScans(:)';
+	assert((aModel.nScans >= 3), 'At least 3 scans must be included in a model.');
         
     else
     	aModel.nScans = aStudy.nScans;
