@@ -51,18 +51,30 @@ acquisitionInfo.Exposure = header.Exposure;
 acquisitionInfo.ExposureTime = header.ExposureTime;
 
 % Patient Info
+
+if(isfield(header,'PatientID'))
 if(~strcmp(header.PatientID, num2str(aStudy.patient.id)))
     warning('Patient ID entered does not match the ID on the DICOM headers.  Using entered ID.');
+end
 end
 acquisitionInfo.PatientID = num2str(aStudy.patient.id);
 
 
 
-
+if(isfield(header,'PatientName'))
 acquisitionInfo.PatientName = header.PatientName;
+end
+
 acquisitionInfo.PatientPosition = header.PatientPosition;
+
+if(isField(header,'PatientBirthDate'))
 acquisitionInfo.PatientBirthDate = header.PatientBirthDate;
+end
+
+if(isField(header,'PatientSex'))
 acquisitionInfo.PatientSex = header.PatientSex;
+end
+
 
 % Scanner
 acquisitionInfo.Manufacturer = header.Manufacturer;
