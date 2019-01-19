@@ -70,11 +70,11 @@ end
 
 acquisitionInfo.PatientPosition = header.PatientPosition;
 
-if(isField(header,'PatientBirthDate'))
+if(isfield(header,'PatientBirthDate'))
 acquisitionInfo.PatientBirthDate = header.PatientBirthDate;
 end
 
-if(isField(header,'PatientSex'))
+if(isfield(header,'PatientSex'))
 acquisitionInfo.PatientSex = header.PatientSex;
 end
 
