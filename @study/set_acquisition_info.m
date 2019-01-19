@@ -43,7 +43,10 @@ acquisitionInfo.ImageOrientationPatient = header.ImageOrientationPatient;
 %acquisitionInfo.ImagePositionPatient = header.ImagePositionPatient;
 %acquisitionInfo.ImagePositionPatient(3) = nan;
 acquisitionInfo.TableHeight = header.TableHeight;
+
+if(isfield(header,'ReferringPhysicianName'))
 acquisitionInfo.ReferringPhysicianName = header.ReferringPhysicianName;
+end
 
 % Dose
 acquisitionInfo.KVP = header.KVP;
