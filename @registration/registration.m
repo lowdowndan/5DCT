@@ -2,7 +2,10 @@ classdef registration < handle
 
 properties
 
-
+    algorithm % Registration algorithm used
+	parameters % Parameters used for
+    nJobs % Number of parallel registrations to run
+   	comment % (optional) Descripton for this registration
 
 end
 
@@ -10,14 +13,11 @@ properties(SetAccess = protected)
 
 	folder % Folder where registration results will be saved
 	refScan % Number of reference scan
-	comment % (optional) Descripton for this model
 	uuid % Universal unique identifier
 	    
 	patient % Reference to patient object which contains this model
 	study % Reference to study object referenced by this model
 	
-	algorithm % Registration algorithm used
-	parameters % Parameters used for
 	sliceFolder % Folder containing sliced DVFs
     corSlice % Representative coronal slice
     sagSliceL % Representative left sagittal slice
@@ -67,6 +67,13 @@ methods
 	% Record what scan is the reference
 	refScanCmd = ['touch "' fullfile(aRegistration.folder,sprintf('ref_%02d.txt',refScan)) '"'];
 	system(refScanCmd);
+    
+    % Set number of jobs
+    if(ispref('fiveD','nJobs'))
+    aRegistration.nJobs = getpref('fiveD','nJobs');
+    else
+    aRegistration.nJobs = 2;
+    end
     end
 
      

@@ -11,7 +11,14 @@ chkmkdir(outputFolder);
 alpha = aRegistration.parameters.alpha;
 samples = aRegistration.parameters.samples;
 
-nJobs = 3;
+% Set number of jobs
+if(ispref('fiveD','nJobs'))
+aRegistration.nJobs = getpref('fiveD','nJobs');
+else
+aRegistration.nJobs = 2;
+end
+
+nJobs = aRegistration.nJobs;
 assert(strcmp(aRegistration.algorithm,'deeds'),'Algorithm not recongized.');
 regCmd = ['parallelDeedsV2.sh "' inputFolder '" "' outputFolder '" ' num2str(refScan) ' ' num2str(nJobs)];
 tic

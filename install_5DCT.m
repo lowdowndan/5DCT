@@ -60,6 +60,16 @@ end
 %% Set working directories
 set_5DCT_working_directories;
 
+%% Set number of registration jobs to run in parallel
+prompt = {'Enter the number of registrations to run in parallel.'};
+title = 'Registration';
+definput = {'2'};
+answer = inputdlg(prompt,title,[1 30],definput);
+answer = answer{1};
+nJobs = str2num(answer);
+setpref('fiveD','nJobs',nJobs);
+
+
 %% Compile mex functions
 ogDir = pwd;
 cd(fullfile(fiveDpath,'@model'))
@@ -87,14 +97,15 @@ cd(ogDir);
 
 
 
-
-msg = ['Please add ' fullfile(fiveDpath,'supportFunctions','bin') ' to the system path.']; 
+disp('5DCT Toolbox installed successfully.')
+disp('If not done already, please do the following:');
+msg = ['Add ' fullfile(fiveDpath,'supportFunctions','bin') ' to the system path.']; 
 disp(msg);
 
-msg = ['Please add ' fullfile(fiveDpath) ' and all subfolders to the MATLAB path.'];
+msg = ['Add ' fullfile(fiveDpath) ' and all subfolders to the MATLAB path.'];
 disp(msg);
 
-msg = ['Please add the pulmonary toolkit (PTK) folder to the MATLAB path.'];
+msg = ['Add the pulmonary toolkit (PTK) folder to the MATLAB path.'];
 disp(msg);
 
 
